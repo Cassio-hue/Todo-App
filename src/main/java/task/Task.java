@@ -2,11 +2,11 @@ package task;
 
 public class Task {
     private int id;
-    private String desc;
+    private String descricao;
+    private Boolean concluida;
 
-    public Task(int id, String desc) {
-        this.id = id;
-        this.desc = desc;
+    public Task() {
+        this.concluida = false;
     }
 
     public int getId() {
@@ -18,10 +18,18 @@ public class Task {
     }
 
     public String getDescricao() {
-        return desc;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.desc = descricao;
+        this.descricao = descricao;
+    }
+
+    public Boolean getConcluida() {
+        return concluida;
+    }
+
+    public void setConcluida(Boolean concluida) {
+        this.concluida = concluida;
     }
 }

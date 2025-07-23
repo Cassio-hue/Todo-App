@@ -1,43 +1,57 @@
 package task;
 
-import daoAPI.DaoAPI;
+import daoAPI.GenericDAO;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class TaskDao implements DaoAPI<Task> {
-    private List<Task> tasks = new ArrayList<>();
+public class TaskDao extends GenericDAO<Task> {
+    private final static String TABLENAME = "TASK";
 
-    public TaskDao() {
-        tasks.add(new Task(1, "Task 1"));
-        tasks.add(new Task(2, "Task 2"));
+    public TaskDao(Connection con) {
+        super(con, TABLENAME);
     }
 
     @Override
-    public Optional<Task> get(long id) {
+    protected Optional<Task> get(long id) {
         return Optional.empty();
     }
 
     @Override
     public List<Task> getAll() {
+        List<Task> tasks = new ArrayList<>();
+        String query = "SELECT * FROM " + this.tableName;
+        try (Statement stmt = this.con.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+
+            while (rs.next()) {
+                Task task = new Task();
+                task.setId(rs.getInt("id"));                     // Exemplo de campo inteiro
+                task.setDescricao(rs.getString("descricao"));    // Exemplo de campo string
+                task.setConcluida(rs.getBoolean("feito"));           // Exemplo de campo boolean
+                tasks.add(task);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e); // ou manipule como achar melhor
+        }
         return tasks;
     }
 
     @Override
-    public void save(Task task) {
-        this.tasks.add(task);
+    protected void save(Task task) {
+
     }
 
     @Override
-    public void update(Task task, String[] params) {
-        if (tasks == null) throw new IllegalStateException("tasks list is null");
-        task.setDescricao(Objects.requireNonNull(params[0], "Desc cannot be null"));
+    protected void update(Task task, String[] params) {
+
     }
 
     @Override
-    public void delete(Task task) {
-        tasks.remove(task);
+    protected void delete(Task task) {
+
     }
 }
