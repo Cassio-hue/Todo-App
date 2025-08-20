@@ -30,7 +30,7 @@ public class TaskDaoJdbc implements TaskDao {
         }
     }
 
-    public void add(Task t) throws SQLException {
+    public boolean save(Task t) throws SQLException {
         String sql = """
                     INSERT INTO Task (
                         descricao
@@ -38,7 +38,7 @@ public class TaskDaoJdbc implements TaskDao {
                 """;
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, t.getDescricao());
-            ps.executeUpdate();
+            return ps.executeUpdate() > 0;
         }
     }
 
@@ -60,7 +60,7 @@ public class TaskDaoJdbc implements TaskDao {
         }
     }
 
-    public Task list(int id) throws SQLException {
+    public Task getById(int id) throws SQLException {
         String sql = "SELECT * FROM Task WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);

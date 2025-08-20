@@ -7,7 +7,12 @@ public interface TaskDao {
     default void criarTabela() throws SQLException {
     }
 
-    default void add(Task t) throws SQLException {
+    default boolean save(Task t) throws SQLException {
+        return false;
+    }
+
+    default Task getById(int id) throws SQLException {
+        return null;
     }
 
     default List<Task> list() throws SQLException {

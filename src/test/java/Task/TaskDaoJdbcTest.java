@@ -1,97 +1,87 @@
 package Task;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskDaoJdbcTest {
-    private static Connection conn;
-    private TaskDaoJdbc dao;
+    private static Connection connection;
+    private static TaskDaoJdbc dao;
+    private static Task task;
+    private static Task persistedTask;
 
-    @BeforeEach
-    public void setUp() throws SQLException {
-        if (conn != null && !conn.isClosed()) {
-            conn.close();
-        }
-
+    @BeforeAll
+    public static void setUp() throws SQLException {
         String jdbcURL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
         String user = "sa";
         String password = "";
-        conn = DriverManager.getConnection(jdbcURL, user, password);
+        connection = DriverManager.getConnection(jdbcURL, user, password);
 
-        dao = new TaskDaoJdbc(conn);
-        dao.deletarTabela();
+        dao = new TaskDaoJdbc(connection);
         dao.criarTabela();
-        dao.add(new Task("Tarefa 1"));
-        dao.add(new Task("Tarefa 2"));
-        dao.add(new Task("Tarefa 3"));
-        dao.add(new Task("Tarefa 4"));
     }
 
+    @AfterAll
+    static void tearDown() throws SQLException {
+        if (connection != null && !connection.isClosed()) {
+            connection.close();
+        }
+    }
+
+    @Order(0)
     @Test
     @DisplayName("TaskDAO Criar tarefa")
-    void criarTarefas() throws SQLException {
-        dao.add(new Task("Fazer o AppTodo"));
-        List<Task> tasks = dao.list();
-        Task t = tasks.get(tasks.size() - 1);
-
-        assertEquals("Fazer o AppTodo", t.getDescricao());
-        assertFalse(t.getConcluido());
+    void criarTarefa() throws SQLException {
+        task = new Task("Tomar agua");
+        assertTrue(dao.save(task));
     }
 
-    @Test
-    @DisplayName("TaskDAO Editar tarefa")
-    void editarTarefas() throws SQLException {
-        List<Task> tasks = dao.list();
-        Task t = tasks.get(0);
-        assertEquals(1, t.getId());
-        assertEquals("Tarefa 1", t.getDescricao());
-        assertFalse(t.getConcluido());
-
-        Task updatedTask = new Task(t.getId(), t.getDescricao(), true);
-        dao.update(updatedTask);
-        Task updatedTaskDB = dao.list(t.getId());
-
-        assertEquals(updatedTask.getId(), updatedTaskDB.getId());
-        assertEquals(updatedTask.getDescricao(), updatedTaskDB.getDescricao());
-        assertEquals(updatedTask.getConcluido(), updatedTaskDB.getConcluido());
-    }
-
-    @Test
-    @DisplayName("TaskDAO Listar todas as tarefas")
-    void listarTarefas() throws SQLException {
-        List<Task> tasks = dao.list();
-
-        assertEquals(4, tasks.size());
-    }
-
+    @Order(1)
     @Test
     @DisplayName("TaskDAO Listar uma tarefa")
     void listarTarefa() throws SQLException {
         List<Task> tasks = dao.list();
-        Task task = tasks.get(0);
-        Task taskDB = dao.list(task.getId());
-
-        assertEquals(task.getId(), taskDB.getId());
-        assertEquals(task.getDescricao(), taskDB.getDescricao());
-        assertEquals(task.getConcluido(), taskDB.getConcluido());
+        assertNotNull(tasks);
+        assertFalse(tasks.isEmpty());
+        persistedTask = tasks.stream().filter(t -> t.getDescricao().equals(task.getDescricao())).findFirst().orElse(null);
+        assertNotNull(persistedTask);
     }
 
+    @Order(2)
+    @Test
+    @DisplayName("TaskDAO Editar tarefa")
+    void editarTarefas() throws SQLException {
+        List<Task> tasks = dao.list();
+        assertFalse(tasks.isEmpty());
+        assertNotNull(persistedTask);
+
+        persistedTask.setDescricao("Fazer o AppTodo");
+        persistedTask.setConcluido(true);
+
+        boolean isUpdated = dao.update(persistedTask);
+        assertTrue(isUpdated);
+
+        Task updatedTaskDB = dao.getById(persistedTask.getId());
+
+        assertEquals(persistedTask.getId(), updatedTaskDB.getId());
+        assertEquals(persistedTask.getDescricao(), updatedTaskDB.getDescricao());
+        assertEquals(persistedTask.getConcluido(), updatedTaskDB.getConcluido());
+
+        persistedTask = updatedTaskDB;
+    }
+
+    @Order(3)
     @Test
     @DisplayName("TaskDAO Deletar tarefa")
     void  deletarTarefa() throws SQLException {
-        List<Task> tasks = dao.list();
-        assertEquals(4, tasks.size());
-        dao.delete(1);
-        tasks = dao.list();
-        assertEquals(3, tasks.size());
+        assertTrue(dao.list().contains(persistedTask));
+        dao.delete(persistedTask.getId());
+        assertFalse(dao.list().contains(persistedTask));
     }
 }
