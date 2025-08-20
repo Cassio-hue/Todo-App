@@ -1,10 +1,9 @@
-package task;
+package Task;
 
-import java.sql.SQLException;
 import java.util.List;
+import java.sql.SQLException;
 
-public interface TaskDAO {
-
+public interface TaskDao {
     default void criarTabela() throws SQLException {
     }
 

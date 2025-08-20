@@ -1,4 +1,4 @@
-package task;
+package Task;
 
 public class Task {
     private int id;

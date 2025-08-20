@@ -1,4 +1,4 @@
-package task;
+package Task;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,9 +12,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class TaskDAOJdbcTest {
+class TaskDaoJdbcTest {
     private static Connection conn;
-    private TaskDAOJdbc dao;
+    private TaskDaoJdbc dao;
 
     @BeforeEach
     public void setUp() throws SQLException {
@@ -27,7 +27,7 @@ class TaskDAOJdbcTest {
         String password = "";
         conn = DriverManager.getConnection(jdbcURL, user, password);
 
-        dao = new TaskDAOJdbc(conn);
+        dao = new TaskDaoJdbc(conn);
         dao.deletarTabela();
         dao.criarTabela();
         dao.add(new Task("Tarefa 1"));
@@ -41,7 +41,7 @@ class TaskDAOJdbcTest {
     void criarTarefas() throws SQLException {
         dao.add(new Task("Fazer o AppTodo"));
         List<Task> tasks = dao.list();
-        Task t = tasks.getLast();
+        Task t = tasks.get(tasks.size() - 1);
 
         assertEquals("Fazer o AppTodo", t.getDescricao());
         assertFalse(t.getConcluido());
@@ -51,7 +51,7 @@ class TaskDAOJdbcTest {
     @DisplayName("TaskDAO Editar tarefa")
     void editarTarefas() throws SQLException {
         List<Task> tasks = dao.list();
-        Task t = tasks.getFirst();
+        Task t = tasks.get(0);
         assertEquals(1, t.getId());
         assertEquals("Tarefa 1", t.getDescricao());
         assertFalse(t.getConcluido());
@@ -77,7 +77,7 @@ class TaskDAOJdbcTest {
     @DisplayName("TaskDAO Listar uma tarefa")
     void listarTarefa() throws SQLException {
         List<Task> tasks = dao.list();
-        Task task = tasks.getFirst();
+        Task task = tasks.get(0);
         Task taskDB = dao.list(task.getId());
 
         assertEquals(task.getId(), taskDB.getId());
