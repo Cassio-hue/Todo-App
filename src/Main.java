@@ -1,5 +1,5 @@
 import task.Task;
-import task.TaskDAO;
+import task.TaskDAOJdbc;
 
 import java.sql.*;
 import java.util.List;
@@ -13,14 +13,14 @@ public class Main {
 
         try (Connection conn = DriverManager.getConnection(jdbcURL, user, password)) {
 
-            TaskDAO taskDAO = new TaskDAO(conn);
-            taskDAO.criarTabela();
+            TaskDAOJdbc taskDAOJdbc = new TaskDAOJdbc(conn);
+            taskDAOJdbc.criarTabela();
 
-            taskDAO.add(new Task("Fazer o AppTodo"));
-            taskDAO.add(new Task("Limpar a casa"));
-            taskDAO.add(new Task("Levar o cachorro para passear"));
+            taskDAOJdbc.add(new Task("Fazer o AppTodo"));
+            taskDAOJdbc.add(new Task("Limpar a casa"));
+            taskDAOJdbc.add(new Task("Levar o cachorro para passear"));
 
-            List<Task> tasks = taskDAO.list();
+            List<Task> tasks = taskDAOJdbc.list();
             System.out.println("Lista de Tarefas:");
             for (Task task : tasks) {
                 System.out.println(task);
@@ -35,9 +35,9 @@ public class Main {
             System.out.print("Concluído (0 | 1): ");
             int concluido = scanner.nextInt();
 
-            boolean taskUpdated = taskDAO.update(new Task(numero, descricao, concluido == 1));
+            boolean taskUpdated = taskDAOJdbc.update(new Task(numero, descricao, concluido == 1));
             if (taskUpdated) {
-                System.out.println(taskDAO.list(numero));
+                System.out.println(taskDAOJdbc.list(numero));
             } else {
                 System.out.println("Não foi possível atualizar a task.");
             }
@@ -46,9 +46,9 @@ public class Main {
             numero = scanner.nextInt();
             scanner.close();
 
-            taskDAO.delete(numero);
+            taskDAOJdbc.delete(numero);
 
-            tasks = taskDAO.list();
+            tasks = taskDAOJdbc.list();
             System.out.println("Lista de Tarefas:");
             for (Task task : tasks) {
                 System.out.println(task);

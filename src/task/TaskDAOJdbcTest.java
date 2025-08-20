@@ -12,9 +12,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-class TaskDAOTest {
+class TaskDAOJdbcTest {
     private static Connection conn;
-    private TaskDAO dao;
+    private TaskDAOJdbc dao;
 
     @BeforeEach
     public void setUp() throws SQLException {
@@ -27,7 +27,7 @@ class TaskDAOTest {
         String password = "";
         conn = DriverManager.getConnection(jdbcURL, user, password);
 
-        dao = new TaskDAO(conn);
+        dao = new TaskDAOJdbc(conn);
         dao.deletarTabela();
         dao.criarTabela();
         dao.add(new Task("Tarefa 1"));

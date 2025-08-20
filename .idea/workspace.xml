@@ -54,48 +54,48 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.H2Connection.executor": "Run",
-    "Application.Main (1).executor": "Debug",
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "JUnit.TaskDAOTest.deletarTarefa.executor": "Run",
-    "JUnit.TaskDAOTest.editarTarefas.executor": "Run",
-    "JUnit.TaskDAOTest.executor": "Run",
-    "JUnit.TaskDAOTest.listarTarefas.executor": "Run",
-    "Maven.Todo-App [jetty:run].executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "create.test.in.the.same.root": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/CassioBorges/Projetos/Todo-App",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/CassioBorges/Projetos/Todo-App/src/Main.java",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "inlay.hints",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.H2Connection.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main (1).executor&quot;: &quot;Debug&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;JUnit.TaskDAOTest.deletarTarefa.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TaskDAOTest.editarTarefas.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TaskDAOTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.TaskDAOTest.listarTarefas.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.Todo-App [jetty:run].executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;create.test.in.the.same.root&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/CassioBorges/Projetos/Todo-App&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/CassioBorges/Projetos/Todo-App/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;inlay.hints&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "h2"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;h2&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
@@ -112,8 +112,8 @@
       <command value="mvn jetty:run" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.TaskDAOTest">
-    <configuration name="TaskDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.TaskDAOJdbcTest">
+    <configuration name="TaskDAOJdbcTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
       <extension name="coverage">
         <pattern>
@@ -122,13 +122,13 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="task" />
-      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOJdbcTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskDAOTest.deletarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TaskDAOJdbcTest.deletarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
       <extension name="coverage">
         <pattern>
@@ -137,14 +137,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="task" />
-      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOJdbcTest" />
       <option name="METHOD_NAME" value="deletarTarefa" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskDAOTest.editarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TaskDAOJdbcTest.editarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
       <extension name="coverage">
         <pattern>
@@ -153,14 +153,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="task" />
-      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOJdbcTest" />
       <option name="METHOD_NAME" value="editarTarefas" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskDAOTest.listarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TaskDAOJdbcTest.listarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
       <extension name="coverage">
         <pattern>
@@ -169,14 +169,14 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="task" />
-      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOJdbcTest" />
       <option name="METHOD_NAME" value="listarTarefa" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TaskDAOTest.listarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TaskDAOJdbcTest.listarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
       <extension name="coverage">
         <pattern>
@@ -185,27 +185,38 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="task" />
-      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOJdbcTest" />
       <option name="METHOD_NAME" value="listarTarefas" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Todo-App" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Todo-App" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <list>
-      <item itemvalue="JUnit.TaskDAOTest" />
-      <item itemvalue="JUnit.TaskDAOTest.deletarTarefa" />
-      <item itemvalue="JUnit.TaskDAOTest.editarTarefas" />
-      <item itemvalue="JUnit.TaskDAOTest.listarTarefa" />
-      <item itemvalue="JUnit.TaskDAOTest.listarTarefas" />
+      <item itemvalue="JUnit.TaskDAOJdbcTest" />
+      <item itemvalue="JUnit.TaskDAOJdbcTest.deletarTarefa" />
+      <item itemvalue="JUnit.TaskDAOJdbcTest.editarTarefas" />
+      <item itemvalue="JUnit.TaskDAOJdbcTest.listarTarefa" />
+      <item itemvalue="JUnit.TaskDAOJdbcTest.listarTarefas" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TaskDAOTest" />
-        <item itemvalue="JUnit.TaskDAOTest.listarTarefa" />
-        <item itemvalue="JUnit.TaskDAOTest.deletarTarefa" />
-        <item itemvalue="JUnit.TaskDAOTest.editarTarefas" />
-        <item itemvalue="JUnit.TaskDAOTest.listarTarefas" />
+        <item itemvalue="JUnit.TaskDAOJdbcTest" />
+        <item itemvalue="JUnit.TaskDAOJdbcTest.listarTarefa" />
+        <item itemvalue="JUnit.TaskDAOJdbcTest.deletarTarefa" />
+        <item itemvalue="JUnit.TaskDAOJdbcTest.editarTarefas" />
+        <item itemvalue="JUnit.TaskDAOJdbcTest.listarTarefas" />
       </list>
     </recent_temporary>
   </component>
