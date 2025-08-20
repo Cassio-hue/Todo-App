@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e36fb536-d4e1-4448-91ed-dc0d98045dfb" name="Changes" comment="" />
+    <list default="true" id="e36fb536-d4e1-4448-91ed-dc0d98045dfb" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/src/task/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/task/TaskDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/task/TaskDAOJdbc.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/task/TaskDAOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Todo-App.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Todo-App.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Todo-App/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Todo-App/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,7 +22,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -47,8 +58,12 @@
   "keyToString": {
     "Application.H2Connection.executor": "Run",
     "Application.Main (1).executor": "Debug",
-    "Application.Main.executor": "Debug",
+    "Application.Main.executor": "Run",
     "Downloaded.Files.Path.Enabled": "false",
+    "JUnit.TaskDAOTest.deletarTarefa.executor": "Run",
+    "JUnit.TaskDAOTest.editarTarefas.executor": "Run",
+    "JUnit.TaskDAOTest.executor": "Run",
+    "JUnit.TaskDAOTest.listarTarefas.executor": "Run",
     "Maven.Todo-App [jetty:run].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Repository.Attach.Annotations": "false",
@@ -56,6 +71,9 @@
     "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "create.test.in.the.same.root": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
@@ -78,6 +96,14 @@
     ]
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="task" />
+    </key>
+  </component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="mvn jetty:run " />
@@ -86,17 +112,100 @@
       <command value="mvn jetty:run" />
     </option>
   </component>
-  <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="Main" />
+  <component name="RunManager" selected="JUnit.TaskDAOTest">
+    <configuration name="TaskDAOTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="Todo-App" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="task.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="task" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="TaskDAOTest.deletarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Todo-App" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="task.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="task" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="METHOD_NAME" value="deletarTarefa" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskDAOTest.editarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Todo-App" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="task.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="task" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="METHOD_NAME" value="editarTarefas" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskDAOTest.listarTarefa" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Todo-App" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="task.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="task" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="METHOD_NAME" value="listarTarefa" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TaskDAOTest.listarTarefas" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Todo-App" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="task.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="task" />
+      <option name="MAIN_CLASS_NAME" value="task.TaskDAOTest" />
+      <option name="METHOD_NAME" value="listarTarefas" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.TaskDAOTest" />
+      <item itemvalue="JUnit.TaskDAOTest.deletarTarefa" />
+      <item itemvalue="JUnit.TaskDAOTest.editarTarefas" />
+      <item itemvalue="JUnit.TaskDAOTest.listarTarefa" />
+      <item itemvalue="JUnit.TaskDAOTest.listarTarefas" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.TaskDAOTest" />
+        <item itemvalue="JUnit.TaskDAOTest.listarTarefa" />
+        <item itemvalue="JUnit.TaskDAOTest.deletarTarefa" />
+        <item itemvalue="JUnit.TaskDAOTest.editarTarefas" />
+        <item itemvalue="JUnit.TaskDAOTest.listarTarefas" />
       </list>
     </recent_temporary>
   </component>
@@ -126,7 +235,7 @@
       <workItem from="1755619992239" duration="2108000" />
       <workItem from="1755690501999" duration="916000" />
       <workItem from="1755691513645" duration="29000" />
-      <workItem from="1755691577707" duration="629000" />
+      <workItem from="1755691577707" duration="8656000" />
     </task>
     <task id="LOCAL-00001" summary="🥹">
       <option name="closed" value="true" />
@@ -136,7 +245,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753285078901</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="init">
+      <option name="closed" value="true" />
+      <created>1755692252518</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1755692252518</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +272,12 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Todo_App$TaskDAOTest.ic" NAME="TaskDAOTest Coverage Results" MODIFIED="1755700314673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+      <FILTER>task.*</FILTER>
+    </SUITE>
   </component>
 </project>
