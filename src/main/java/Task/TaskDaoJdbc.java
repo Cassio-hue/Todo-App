@@ -1,15 +1,14 @@
 package Task;
 
+import H2Factory.ConnectionFactory;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TaskDaoJdbc implements TaskDao {
-    private final Connection conn;
 
-    public TaskDaoJdbc(Connection conn) {
-        this.conn = conn;
-    }
+    public TaskDaoJdbc() { }
 
     public void criarTabela() throws SQLException {
         String sql = """
@@ -19,13 +18,13 @@ public class TaskDaoJdbc implements TaskDao {
                         concluido BOOLEAN DEFAULT FALSE
                     );
                 """;
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = ConnectionFactory.getConnection().createStatement()) {
             stmt.execute(sql);
         }
     }
     public void deletarTabela() throws SQLException {
         String sql = "DROP TABLE IF EXISTS Task";
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = ConnectionFactory.getConnection().createStatement()) {
             stmt.execute(sql);
         }
     }
@@ -36,7 +35,7 @@ public class TaskDaoJdbc implements TaskDao {
                         descricao
                     ) VALUES (?);
                 """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, t.getDescricao());
             ps.executeUpdate();
         }
@@ -46,7 +45,7 @@ public class TaskDaoJdbc implements TaskDao {
         List<Task> tasks = new ArrayList<>();
         String sql = "SELECT * FROM Task";
 
-        try (Statement stmt = conn.createStatement();
+        try (Statement stmt = ConnectionFactory.getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 Task t = new Task();
@@ -62,7 +61,7 @@ public class TaskDaoJdbc implements TaskDao {
 
     public Task list(int id) throws SQLException {
         String sql = "SELECT * FROM Task WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setInt(1, id);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -85,7 +84,7 @@ public class TaskDaoJdbc implements TaskDao {
                         concluido = ?
                     WHERE id = ?;
                 """;
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, t.getDescricao());
             ps.setBoolean(2, t.getConcluido());
             ps.setInt(3, t.getId());
@@ -96,7 +95,7 @@ public class TaskDaoJdbc implements TaskDao {
 
     public void delete(int id) throws SQLException {
         String sql = "DELETE FROM Task WHERE id = ?;";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
         }
