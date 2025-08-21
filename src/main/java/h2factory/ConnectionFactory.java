@@ -1,4 +1,4 @@
-package H2Factory;
+package h2factory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

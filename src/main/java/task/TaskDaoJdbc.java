@@ -1,6 +1,6 @@
-package Task;
+package task;
 
-import H2Factory.ConnectionFactory;
+import h2factory.ConnectionFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
