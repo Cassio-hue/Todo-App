@@ -63,6 +63,7 @@ public class TaskServlet extends HttpServlet {
             out.println("<div class=\"task-list\">");
 
             out.println("<form method='post' action='/'>");
+            out.println("<input type='hidden' name='action' value='create' />");
             out.println("<input type='text' name='descricao' placeholder='Nova tarefa' required>");
             out.println("<button type='submit'>Adicionar</button>");
             out.println("</form>");
@@ -70,24 +71,33 @@ public class TaskServlet extends HttpServlet {
             for (Task t : tasks) {
                 boolean done = Boolean.TRUE.equals(t.getConcluido());
                 out.println("<div class=\"task-item\">");
-
+                out.println("<form style=\"display: flex; width:100%; align-items: center; justify-content: space-evenly;\" method='post' action='/'>");
+                out.println("<input type='hidden' name='action' value='toggle' />");
+                out.println("<input type='hidden' name='id' value='" + t.getId() + "' />");
+                out.println("<input type='hidden' name='concluido' value='" + t.getConcluido() +"' />");
                 if (done) {
                     out.println("<div class=\"checkbox completed\" title=\"Concluído\">");
-                    out.println("<svg class=\"check-icon\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\">");
+                    out.println("<svg onclick=\"this.closest('form').submit()\" class=\"check-icon\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\">");
                     out.println("<path d=\"M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z\"/>");
                     out.println("</svg>");
                     out.println("</div>");
                     out.println("<div class=\"task-desc completed\">" + escapeHtml(t.getDescricao()) + "</div>");
                 } else {
                     out.println("<div class=\"checkbox\" title=\"Pendente\">");
-                    out.println("<svg class=\"check-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3498db\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\">");
+                    out.println("<svg onclick=\"this.closest('form').submit()\" class=\"check-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"#3498db\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" xmlns=\"http://www.w3.org/2000/svg\">");
                     out.println("<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" ry=\"2\"/>");
                     out.println("</svg>");
                     out.println("</div>");
                     out.println("<div class=\"task-desc\">" + escapeHtml(t.getDescricao()) + "</div>");
                 }
-
                 out.println("<div class=\"task-id\">#" + t.getId() + "</div>");
+                out.println("</form>");
+
+                out.println("<form method='post' action='/' class='delete-form' style='margin-left: 1rem;'>");
+                out.println("<input type='hidden' name='action' value='delete' />");
+                out.println("<input type='hidden' name='id' value='" + t.getId() + "' />");
+                out.println("<button type='submit' title='Excluir tarefa' style='background:none; border:none; color:#e74c3c; cursor:pointer;' onclick='return confirm(\"Confirma exclusão da tarefa?\");'>✖</button>");
+                out.println("</form>");
                 out.println("</div>");
             }
 
@@ -100,18 +110,53 @@ public class TaskServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        String descricao = req.getParameter("descricao");
 
-        if (descricao != null && !descricao.isBlank()) {
-            Task novaTask = new Task();
-            novaTask.setDescricao(descricao);
-            novaTask.setConcluido(false);
-            try {
-                dao.save(novaTask);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+        String action = req.getParameter("action");
+        if ("create".equals(action)) {
+            String descricao = req.getParameter("descricao");
+            if (descricao != null && !descricao.isBlank()) {
+                Task novaTask = new Task();
+                novaTask.setDescricao(descricao);
+                novaTask.setConcluido(false);
+                try {
+                    dao.save(novaTask);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else if ("toggle".equals(action)) {
+            String idStr = req.getParameter("id");
+            String concluidoParam = req.getParameter("concluido");
+
+            if (idStr != null) {
+                try {
+                    int id = Integer.parseInt(idStr);
+                    boolean concluido = !Boolean.parseBoolean(concluidoParam);
+                    Task task = dao.getById(id);
+                    if (task != null) {
+                        task.setConcluido(concluido);
+                        dao.update(task);
+                    }
+                } catch (NumberFormatException | SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } else if ("delete".equals(action)) {
+            String idStr = req.getParameter("id");
+
+            if (idStr != null) {
+                try {
+                    int id = Integer.parseInt(idStr);
+                    Task task = dao.getById(id);
+                    if (task != null) {
+                        dao.delete(id);
+                    }
+                } catch (NumberFormatException | SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
+
         resp.sendRedirect("/");
     }
 }
