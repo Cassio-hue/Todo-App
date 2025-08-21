@@ -1,3 +1,5 @@
+import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import servlet.Servlet;
 import task.TaskDaoJdbc;
 import org.eclipse.jetty.server.Server;
@@ -13,7 +15,16 @@ public class App {
         context.setContextPath("/");
         server.setHandler(context);
 
+        ServletHolder defaultServlet = new ServletHolder(DefaultServlet.class);
+        defaultServlet.setInitParameter("resourceBase", "src/main/webapp");
+        defaultServlet.setInitParameter("dirAllowed", "true");
+        context.addServlet(defaultServlet, "/");
+
         context.addServlet(new ServletHolder(new Servlet(dao)), "/app");
+
+        ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
+        errorHandler.addErrorPage(404, "/notfound.html");
+        context.setErrorHandler(errorHandler);
 
         server.start();
         System.out.println("Servidor rodando em http://localhost:8080");
