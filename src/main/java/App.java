@@ -18,7 +18,7 @@ public class App {
         context.setContextPath("/");
         server.setHandler(context);
 
-        context.addServlet(new ServletHolder(new TaskServlet(tasks)), "/tarefas");
+        context.addServlet(new ServletHolder(new TaskServlet(tasks)), "/");
 
         server.start();
         System.out.println("Servidor rodando em http://localhost:8080");

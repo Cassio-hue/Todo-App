@@ -1,5 +1,7 @@
 package Task;
 
+import java.util.Objects;
+
 public class Task {
     private int id;
     private String descricao;
@@ -39,6 +41,18 @@ public class Task {
 
     public void setConcluido(Boolean concluido) {
         this.concluido = concluido;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id == task.id && Objects.equals(descricao, task.descricao) && Objects.equals(concluido, task.concluido);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, descricao, concluido);
     }
 
     @Override
