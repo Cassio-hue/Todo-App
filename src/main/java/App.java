@@ -10,7 +10,7 @@ import java.util.List;
 public class App {
     public static void main(String[] args) throws Exception {
         TaskDaoJdbc taskDAOJdbc = new TaskDaoJdbc();
-        List<Task> tasks = taskDAOJdbc.list();
+
 
         Server server = new Server(8080);
 
@@ -18,7 +18,7 @@ public class App {
         context.setContextPath("/");
         server.setHandler(context);
 
-        context.addServlet(new ServletHolder(new TaskServlet(tasks)), "/");
+        context.addServlet(new ServletHolder(new TaskServlet(taskDAOJdbc)), "/");
 
         server.start();
         System.out.println("Servidor rodando em http://localhost:8080");

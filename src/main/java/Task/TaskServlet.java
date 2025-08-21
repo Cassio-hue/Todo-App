@@ -6,13 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.List;
 
 public class TaskServlet extends HttpServlet {
-    private final List<Task> tasks;
+    private final TaskDaoJdbc dao;
 
-    public TaskServlet(List<Task> tasks) {
-        this.tasks = tasks;
+    public TaskServlet(TaskDaoJdbc taskDaoJdbc) {
+        this.dao = taskDaoJdbc;
     }
 
     private String escapeHtml(String text) {
@@ -26,6 +27,13 @@ public class TaskServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        List<Task> tasks = null;
+        try {
+            tasks = dao.list();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         resp.setContentType("text/html; charset=UTF-8");
         try (PrintWriter out = resp.getWriter()) {
             out.println("<!DOCTYPE html>");
@@ -53,6 +61,11 @@ public class TaskServlet extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Minhas Tarefas</h1>");
             out.println("<div class=\"task-list\">");
+
+            out.println("<form method='post' action='/'>");
+            out.println("<input type='text' name='descricao' placeholder='Nova tarefa' required>");
+            out.println("<button type='submit'>Adicionar</button>");
+            out.println("</form>");
 
             for (Task t : tasks) {
                 boolean done = Boolean.TRUE.equals(t.getConcluido());
@@ -82,5 +95,23 @@ public class TaskServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        req.setCharacterEncoding("UTF-8");
+        String descricao = req.getParameter("descricao");
+
+        if (descricao != null && !descricao.isBlank()) {
+            Task novaTask = new Task();
+            novaTask.setDescricao(descricao);
+            novaTask.setConcluido(false);
+            try {
+                dao.save(novaTask);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        resp.sendRedirect("/");
     }
 }
