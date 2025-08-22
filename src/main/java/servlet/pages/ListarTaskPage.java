@@ -1,11 +1,11 @@
-package servlet;
+package servlet.pages;
 
 import task.Task;
 
 import java.util.List;
 
 public class ListarTaskPage {
-    String render(List<Task> tasks) {
+    public String render(List<Task> tasks) {
         StringBuilder tarefas = new StringBuilder();
         for (Task t : tasks) {
             int id = t.getId();
