@@ -20,66 +20,72 @@ public class Servlet extends HttpServlet {
         this.dao = dao;
     }
 
-    private void processRequest(
-            HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException, SQLException {
+    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
 
         String action = req.getParameter("action");
-        if ("create".equals(action)) {
-            String descricao = req.getParameter("descricao");
-            if (descricao != null && !descricao.isBlank()) {
-                Task novaTask = new Task();
-                novaTask.setDescricao(descricao);
-                novaTask.setConcluido(false);
-                try {
-                    dao.save(novaTask);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        } else if ("toggle".equals(action)) {
-            String idStr = req.getParameter("id");
-            String concluidoParam = req.getParameter("concluido");
+        String idStr = req.getParameter("id");
+        String concluidoParam = req.getParameter("concluido");
 
-            if (idStr != null) {
-                try {
-                    int id = Integer.parseInt(idStr);
-                    boolean concluido = !Boolean.parseBoolean(concluidoParam);
-                    Task task = dao.getById(id);
-                    if (task != null) {
-                        task.setConcluido(concluido);
-                        dao.update(task);
-                    }
-                } catch (NumberFormatException | SQLException e) {
-                    throw new RuntimeException(e);
-                }
+        if (action == null) {
+            List<Task> tasks;
+            try {
+                tasks = dao.list();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } else if ("delete".equals(action)) {
-            String idStr = req.getParameter("id");
 
-            if (idStr != null) {
-                try {
-                    int id = Integer.parseInt(idStr);
-                    Task task = dao.getById(id);
-                    if (task != null) {
-                        dao.delete(id);
-                    }
-                } catch (NumberFormatException | SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            resp.setContentType("text/html; charset=UTF-8");
+            resp.getWriter().println(new ListarTaskPage().render(tasks));
+            return;
         }
 
-
-        List<Task> tasks = null;
-        try {
-            tasks = dao.list();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        switch (action) {
+            case "create":
+                String descricao = req.getParameter("descricao");
+                if (descricao != null && !descricao.isBlank()) {
+                    Task novaTask = new Task();
+                    novaTask.setDescricao(descricao);
+                    novaTask.setConcluido(false);
+                    try {
+                        dao.save(novaTask);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
+            case "toggle":
+                if (idStr != null) {
+                    try {
+                        int id = Integer.parseInt(idStr);
+                        boolean concluido = !Boolean.parseBoolean(concluidoParam);
+                        Task task = dao.getById(id);
+                        if (task != null) {
+                            task.setConcluido(concluido);
+                            dao.update(task);
+                        }
+                    } catch (NumberFormatException | SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
+            case "delete":
+                if (idStr != null) {
+                    try {
+                        int id = Integer.parseInt(idStr);
+                        Task task = dao.getById(id);
+                        if (task != null) {
+                            dao.delete(id);
+                        }
+                    } catch (NumberFormatException | SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
+            default:
+                break;
         }
 
-        resp.setContentType("text/html; charset=UTF-8");
-        resp.getWriter().println(new ListarTaskPage().render(tasks));
+        resp.sendRedirect(req.getContextPath() + "/listar");
     }
 
     @Override

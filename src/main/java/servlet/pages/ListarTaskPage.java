@@ -15,7 +15,7 @@ public class ListarTaskPage {
             if (concluido) {
                 tarefas.append(String.format("""
                     <div class="task-item">
-                      <form style="display: flex; width: 100%%; align-items: center; justify-content: space-evenly;" method="post" action="/app">
+                      <form style="display: flex; width: 100%%; align-items: center; justify-content: space-evenly;" method="post" action=/listar>
                         <input type="hidden" name="action" value="toggle" />
                         <input type="hidden" name="id" value="%s" />
                         <input type="hidden" name="concluido" value="true" />
@@ -27,7 +27,7 @@ public class ListarTaskPage {
                         <div class="task-desc completed">%s</div>
                         <div class="task-id">#%s</div>
                       </form>
-                      <form method="post" action="/app" class="delete-form">
+                      <form method="post" action=/listar class="delete-form">
                         <input type="hidden" name="action" value="delete" />
                         <input type="hidden" name="id" value="%s" />
                         <button type="submit" class="delete-btn" title="Excluir tarefa" onclick="return confirm('Confirma exclusão da tarefa?');">&#x2716;</button>
@@ -37,7 +37,7 @@ public class ListarTaskPage {
             } else {
                 tarefas.append(String.format("""
                     <div class="task-item">
-                      <form style="display: flex; width: 100%%; align-items: center; justify-content: space-evenly;" method="post" action="/app">
+                      <form style="display: flex; width: 100%%; align-items: center; justify-content: space-evenly;" method="post" action=/listar>
                         <input type="hidden" name="action" value="toggle" />
                         <input type="hidden" name="id" value="%s" />
                         <input type="hidden" name="concluido" value="false" />
@@ -49,7 +49,7 @@ public class ListarTaskPage {
                         <div class="task-desc">%s</div>
                         <div class="task-id">#%s</div>
                       </form>
-                      <form method="post" action="/app" class="delete-form">
+                      <form method="post" action=/listar class="delete-form">
                         <input type="hidden" name="action" value="delete" />
                         <input type="hidden" name="id" value="%s" />
                         <button type="submit" class="delete-btn" title="Excluir tarefa" onclick="return confirm('Confirma exclusão da tarefa?')">&#x2716;</button>
@@ -157,7 +157,7 @@ public class ListarTaskPage {
                 <body>
                   <h1>Minhas Tarefas</h1>
                   <div class="task-list">
-                    <form method="post" action="/app">
+                    <form method="post" action=/listar>
                       <input type="hidden" name="action" value="create" />
                       <input type="text" name="descricao" placeholder="Nova tarefa" required />
                       <button type="submit">Adicionar</button>

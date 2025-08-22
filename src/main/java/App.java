@@ -25,7 +25,7 @@ public class App {
         defaultServlet.setInitParameter("dirAllowed", "true");
 
         context.addServlet(defaultServlet, "/");
-        context.addServlet(new ServletHolder(new Servlet(dao)), "/app");
+        context.addServlet(new ServletHolder(new Servlet(dao)), "/listar");
 
         ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
         errorHandler.addErrorPage(404, "/notfound.html");
