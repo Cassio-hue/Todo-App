@@ -13,18 +13,15 @@ public class TaskDaoJdbc implements TaskDao {
 
     public TaskDaoJdbc() throws SQLException {
         this.connection = ConnectionFactory.getConnection();
-        criarTabela();
     }
 
     public TaskDaoJdbc(Connection connection) {
         this.connection = connection;
-        criarTabela();
-
     }
 
     public void criarTabela() {
         String sql = """
-                    CREATE TABLE IF NOT EXISTS Task (
+                    CREATE TABLE Task (
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         descricao VARCHAR(255),
                         concluido BOOLEAN DEFAULT FALSE
@@ -33,29 +30,28 @@ public class TaskDaoJdbc implements TaskDao {
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
         } catch (SQLException ex) {
-            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao criar Tabela Task", ex);
-        }
-    }
-    public void deletarTabela() throws SQLException {
-        String sql = "DROP TABLE IF EXISTS Task";
-        try (Statement stmt = this.connection.createStatement()) {
-            stmt.execute(sql);
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao criar tabela", ex);
         }
     }
 
-    public boolean save(Task t) throws SQLException {
+    public boolean save(Task t) {
         String sql = """
                     INSERT INTO Task (
-                        descricao
-                    ) VALUES (?);
+                        descricao,
+                        concluido
+                    ) VALUES (?, ?);
                 """;
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setString(1, t.getDescricao());
+            ps.setBoolean(2, t.getConcluido());
             return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao adicionar tarefa", ex);
+            return false;
         }
     }
 
-    public List<Task> list() throws SQLException {
+    public List<Task> list() {
         List<Task> tasks = new ArrayList<>();
         String sql = "SELECT * FROM Task";
 
@@ -68,12 +64,14 @@ public class TaskDaoJdbc implements TaskDao {
                 t.setConcluido(rs.getBoolean("concluido"));
                 tasks.add(t);
             }
-
-            return tasks;
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao listar tarefas", ex);
         }
+
+        return tasks;
     }
 
-    public Task getById(int id) throws SQLException {
+    public Task getById(int id) {
         String sql = "SELECT * FROM Task WHERE id = ?";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setInt(1, id);
@@ -87,11 +85,13 @@ public class TaskDaoJdbc implements TaskDao {
                     );
                 }
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao lista tarefa de ID: " + id, ex);
         }
         return null;
     }
 
-    public boolean update(Task t) throws SQLException {
+    public boolean update(Task t) {
         String sql = """
                     UPDATE Task SET
                         descricao = ?,
@@ -104,14 +104,19 @@ public class TaskDaoJdbc implements TaskDao {
             ps.setInt(3, t.getId());
 
             return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao atualizar tarefa de ID: " + t.getId(), ex);
+            return false;
         }
     }
 
-    public void delete(int id) throws SQLException {
+    public void delete(int id) {
         String sql = "DELETE FROM Task WHERE id = ?;";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao deletar tarefa de ID: " + id, ex);
         }
     }
 }

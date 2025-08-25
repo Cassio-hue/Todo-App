@@ -1,0 +1,36 @@
+package servlet;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import pages.task.CriarTaskPage;
+import pages.task.DeletarTaskPage;
+import pages.task.EditarTaskPage;
+import pages.task.ListarTaskPage;
+import task.Task;
+import task.TaskDaoJdbc;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+public class ListarTaskServlet extends HttpServlet {
+    TaskDaoJdbc taskDaoJdbc;
+
+
+    public ListarTaskServlet() throws SQLException {
+        this.taskDaoJdbc = new TaskDaoJdbc();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Task> tasks = taskDaoJdbc.list();
+        response.getWriter().println(new ListarTaskPage().render(tasks));
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect(request.getContextPath() + "/listar-task");
+    }
+}
