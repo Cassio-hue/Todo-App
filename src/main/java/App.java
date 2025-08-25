@@ -1,10 +1,9 @@
+import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
-import servlet.TaskServlet;
-import task.TaskDaoJdbc;
-import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import servlet.TaskServlet;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -22,7 +21,7 @@ public class App {
         context.addServlet(new ServletHolder(new TaskServlet()), "/listar-task");
         context.addServlet(new ServletHolder(new TaskServlet()), "/criar-task");
         context.addServlet(new ServletHolder(new TaskServlet()), "/editar-task");
-        context.addServlet(new ServletHolder(new TaskServlet()), "/excluir-task");
+        context.addServlet(new ServletHolder(new TaskServlet()), "/deletar-task");
 
         ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
         errorHandler.addErrorPage(404, "/notfound.html");
