@@ -1,6 +1,5 @@
 package servlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,38 +9,43 @@ import task.TaskDaoJdbc;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class Servlet extends HttpServlet {
+public class TaskServlet extends HttpServlet {
     TaskDaoJdbc dao;
 
-
-    public Servlet(TaskDaoJdbc dao) {
+    public TaskServlet(TaskDaoJdbc dao) {
         this.dao = dao;
     }
 
-    private void processRequest(HttpServletRequest req, HttpServletResponse resp) throws IOException, SQLException {
-
-        String action = req.getParameter("action");
-        String idStr = req.getParameter("id");
-        String concluidoParam = req.getParameter("concluido");
-
-        if (action == null) {
-            List<Task> tasks;
-            try {
-                tasks = dao.list();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-
-            resp.setContentType("text/html; charset=UTF-8");
-            resp.getWriter().println(new ListarTaskPage().render(tasks));
-            return;
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        List<Object> tasks;
+        try {
+            tasks = new ArrayList<>(dao.list());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
+
+        response.setContentType("text/html; charset=UTF-8");
+        Map<String, List<Object>> pageMap = new HashMap<>();
+        pageMap.put(ListarTaskPage.TASKS, tasks);
+        response.getWriter().println(new ListarTaskPage().render(pageMap));
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String action = request.getParameter("action");
+        String idStr = request.getParameter("id");
+        String concluidoParam = request.getParameter("concluido");
 
         switch (action) {
             case "create":
-                String descricao = req.getParameter("descricao");
+                String descricao = request.getParameter("descricao");
                 if (descricao != null && !descricao.isBlank()) {
                     Task novaTask = new Task();
                     novaTask.setDescricao(descricao);
@@ -53,6 +57,7 @@ public class Servlet extends HttpServlet {
                     }
                 }
                 break;
+
             case "toggle":
                 if (idStr != null) {
                     try {
@@ -68,6 +73,7 @@ public class Servlet extends HttpServlet {
                     }
                 }
                 break;
+
             case "delete":
                 if (idStr != null) {
                     try {
@@ -85,31 +91,6 @@ public class Servlet extends HttpServlet {
                 break;
         }
 
-        resp.sendRedirect(req.getContextPath() + "/listar");
-    }
-
-    @Override
-    protected void doGet(
-            HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        try {
-            processRequest(request, response);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @Override
-    protected void doPost(
-            HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        try {
-            processRequest(request, response);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        response.sendRedirect(request.getContextPath() + ListarTaskPage.ROUTE);
     }
 }

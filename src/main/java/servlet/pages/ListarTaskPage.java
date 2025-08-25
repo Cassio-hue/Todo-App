@@ -1,12 +1,23 @@
 package servlet.pages;
 
+import custom.annotations.Rota;
 import task.Task;
 
 import java.util.List;
+import java.util.Map;
 
-public class ListarTaskPage {
-    public String render(List<Task> tasks) {
+@Rota(ListarTaskPage.ROUTE)
+public class ListarTaskPage implements Page {
+    public static final String ROUTE = "/listar";
+    public static final String TASKS = "tasks";
+
+    public String render(Map<String, List<Object>> parameters) {
+        List<Task> tasks = parameters.get(TASKS).stream()
+                .filter(Task.class::isInstance)
+                .map(Task.class::cast)
+                .toList();
         StringBuilder tarefas = new StringBuilder();
+
         for (Task t : tasks) {
             int id = t.getId();
             String desc = t.getDescricao();
