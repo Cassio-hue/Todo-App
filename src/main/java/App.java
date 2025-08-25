@@ -3,7 +3,10 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import servlet.TaskServlet;
+import servlet.CriarTaskServlet;
+import servlet.DeletarTaskServlet;
+import servlet.EditarTaskServlet;
+import servlet.ListarTaskServlet;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -17,10 +20,10 @@ public class App {
         defaultServlet.setInitParameter("resourceBase", "src/main/webapp");
         context.addServlet(defaultServlet, "/");
 
-        context.addServlet(new ServletHolder(new TaskServlet()), "/listar-task");
-        context.addServlet(new ServletHolder(new TaskServlet()), "/criar-task");
-        context.addServlet(new ServletHolder(new TaskServlet()), "/editar-task");
-        context.addServlet(new ServletHolder(new TaskServlet()), "/deletar-task");
+        context.addServlet(new ServletHolder(new ListarTaskServlet()), "/listar-task");
+        context.addServlet(new ServletHolder(new CriarTaskServlet()), "/criar-task");
+        context.addServlet(new ServletHolder(new EditarTaskServlet()), "/editar-task");
+        context.addServlet(new ServletHolder(new DeletarTaskServlet()), "/deletar-task");
 
         ErrorPageErrorHandler errorHandler = new ErrorPageErrorHandler();
         errorHandler.addErrorPage(404, "/notfound.html");
