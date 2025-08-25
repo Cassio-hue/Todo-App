@@ -5,21 +5,26 @@ import h2factory.ConnectionFactory;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TaskDaoJdbc implements TaskDao {
-    private Connection connection;
+    private final Connection connection;
 
     public TaskDaoJdbc() throws SQLException {
         this.connection = ConnectionFactory.getConnection();
+        criarTabela();
     }
 
     public TaskDaoJdbc(Connection connection) {
         this.connection = connection;
+        criarTabela();
+
     }
 
-    public void criarTabela() throws SQLException {
+    public void criarTabela() {
         String sql = """
-                    CREATE TABLE Task (
+                    CREATE TABLE IF NOT EXISTS Task (
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         descricao VARCHAR(255),
                         concluido BOOLEAN DEFAULT FALSE
@@ -27,6 +32,8 @@ public class TaskDaoJdbc implements TaskDao {
                 """;
         try (Statement stmt = this.connection.createStatement()) {
             stmt.execute(sql);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDaoJdbc.class.getName()).log(Level.SEVERE, "Erro ao criar Tabela Task", ex);
         }
     }
     public void deletarTabela() throws SQLException {
