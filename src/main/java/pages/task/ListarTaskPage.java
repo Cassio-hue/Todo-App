@@ -134,59 +134,19 @@ public class ListarTaskPage {
                             height: 18px;
                             fill: currentColor;
                         }
-                
-                        form.delete-form {
-                            margin-left: 1rem;
-                        }
-                
-                        button.delete-btn {
-                            background: none;
-                            border: none;
-                            color: #e74c3c;
-                            cursor: pointer;
-                            font-size: 1.2rem;
-                            line-height: 1;
-                        }
                     </style>
                 </head>
                 
                 <body>
                     <h1>Minhas Tarefas</h1>
-                    <button id="openModalBtn" style="margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor:pointer; border-radius:5px; border:none; background:#3498db; color:#fff;">
-                        Nova Tarefa
-                    </button>
+                    <a href="/" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
+                        Home
+                    </a>
                 
                     <div class="task-list">
                         %s
                     </div>
-                
-                    <div id="taskModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); backdrop-filter: blur(2px); z-index:1000; align-items:center; justify-content:center;">
-                        <form id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 90%%; max-width: 400px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
-                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
-                            <input id="formAction" type="hidden" name="action" />
-                            <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
-                            <input id="descricao" name="descricao" type="text" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
-                
-                            <fieldset style="border:none; padding:0; margin-bottom: 1.5rem;">
-                                <legend style="font-weight:600; color:#333; margin-bottom: 0.5rem;">Concluído?</legend>
-                                <label style="margin-right: 1rem; cursor: pointer;">
-                                    <input type="radio" name="concluido" value="true" style="margin-right: 0.25rem;" />
-                                    Sim
-                                </label>
-                                <label style="cursor: pointer;">
-                                    <input type="radio" name="concluido" value="false" checked style="margin-right: 0.25rem;" />
-                                    Não
-                                </label>
-                            </fieldset>
-                
-                            <div style="text-align: right;">
-                                <button type="button" id="cancelBtn" style="background:none; border:none; color:#999; font-weight:600; margin-right: 1rem; cursor:pointer;">Cancelar</button>
-                                <button type="submit" style="background:#3498db; border:none; color:#fff; font-weight:600; padding: 0.5rem 1.5rem; border-radius: 5px; cursor:pointer;">Salvar</button>
-                            </div>
-                        </form>
-                    </div>
                 </body>
-                
                 </html>
                 """, tarefas);
     }

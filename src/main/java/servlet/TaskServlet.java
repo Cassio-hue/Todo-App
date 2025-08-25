@@ -108,6 +108,6 @@ public class TaskServlet extends HttpServlet {
                 response.sendError(400);
         }
 
-        response.sendRedirect(request.getContextPath() + "/listar-task");
+        response.sendRedirect(request.getContextPath() + "/");
     }
 }

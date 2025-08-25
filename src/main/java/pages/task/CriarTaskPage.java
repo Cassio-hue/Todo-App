@@ -9,7 +9,7 @@ public class CriarTaskPage {
                 <head>
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>Lista de Tarefas</title>
+                    <title>Criar Tarefas</title>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                 
@@ -117,7 +117,9 @@ public class CriarTaskPage {
                 </head>
                 
                 <body>
-                    <h1>Adicionar Tarefa</h1>
+                    <a href="/" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
+                        Home
+                    </a>
                     <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
                             <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>

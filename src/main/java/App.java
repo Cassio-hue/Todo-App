@@ -15,7 +15,6 @@ public class App {
 
         ServletHolder defaultServlet = new ServletHolder(DefaultServlet.class);
         defaultServlet.setInitParameter("resourceBase", "src/main/webapp");
-        defaultServlet.setInitParameter("dirAllowed", "true");
         context.addServlet(defaultServlet, "/");
 
         context.addServlet(new ServletHolder(new TaskServlet()), "/listar-task");
