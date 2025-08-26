@@ -11,14 +11,13 @@ import java.util.logging.Logger;
 public class TaskDaoJdbc implements TaskDao {
     private final Connection connection;
 
-    public TaskDaoJdbc() throws SQLException {
-        this.connection = ConnectionFactory.getConnection();
-        criarTabela();
-    }
-
-    public TaskDaoJdbc(Connection connection) {
-        this.connection = connection;
-        criarTabela();
+    public TaskDaoJdbc() {
+        try {
+            this.connection = ConnectionFactory.getConnection();
+            criarTabela();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao abrir conexão com banco de dados: " + ex);
+        }
     }
 
     public void criarTabela() {

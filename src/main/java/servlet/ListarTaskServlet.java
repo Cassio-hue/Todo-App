@@ -15,7 +15,7 @@ import java.util.List;
 public class ListarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;
 
-    public ListarTaskServlet() throws SQLException {
+    public ListarTaskServlet() {
         this.taskDaoJdbc = new TaskDaoJdbc();
     }
 

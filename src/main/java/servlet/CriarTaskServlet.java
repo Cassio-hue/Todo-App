@@ -14,7 +14,7 @@ public class CriarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;
 
 
-    public CriarTaskServlet() throws SQLException {
+    public CriarTaskServlet() {
         this.taskDaoJdbc = new TaskDaoJdbc();
     }
 

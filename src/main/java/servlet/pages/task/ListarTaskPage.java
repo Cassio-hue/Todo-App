@@ -23,26 +23,40 @@ public class ListarTaskPage {
                 tarefas.append(String.format("""
                                 <div id="taskItem" class="task-item">
                                     <div class="checkbox completed" title="Concluído">
-                                      <svg onclick="this.closest('form').submit()" class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                      <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z"></path>
                                       </svg>
                                     </div>
                                     <div class="task-desc completed">%s</div>
-                                    <div class="task-id">#%s</div>
+                                    <form method="GET" action="/editar-task" style="margin-right: 8px;">
+                                        <input type="hidden" name="id" value="%s"/>
+                                        <button type="submit">Editar</button>
+                                    </form>
+                                    <form method="POST" action="/deletar-task">
+                                        <input type="hidden" name="id" value="%s"/>
+                                        <button type="submit">Excluir</button>
+                                    </form>
                                 </div>
-                        """, desc, id));
+                        """, desc, id, id));
             } else {
                 tarefas.append(String.format("""
                             <div id="taskItem" class="task-item">
                                 <div class="checkbox" title="Pendente">
-                                  <svg onclick="this.closest('form').submit()" class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                                   </svg>
                                 </div>
                                 <div class="task-desc">%s</div>
-                                <div class="task-id">#%s</div>
+                                <form method="GET" action="/editar-task" style="margin-right: 8px;">
+                                    <input type="hidden" name="id" value="%s"/>
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form method="POST" action="/deletar-task">
+                                    <input type="hidden" name="id" value="%s"/>
+                                    <button type="submit">Excluir</button>
+                                </form>
                             </div>
-                        """, desc, id));
+                        """, desc, id, id));
             }
         }
 
@@ -146,12 +160,7 @@ public class ListarTaskPage {
                 
                 <body>
                     <h1>Minhas Tarefas</h1>
-                    <div style="display: flex; flex-direction: column; text-align: center; width: 100%%; margin-bottom: 24px;">
-                        <a href="/listar-task">Listar Tarefas</a>
-                        <a href="/criar-task">Criar Tarefa</a>
-                        <a href="/editar-task">Editar Tarefa</a>
-                        <a href="/deletar-task">Deletar Tarefa</a>
-                    </div>
+                    <a href="/criar-task" style="display: flex; justify-content: center; padding: 16px;">Criar Tarefas</a>
                     <div class="task-list">
                         %s
                     </div>

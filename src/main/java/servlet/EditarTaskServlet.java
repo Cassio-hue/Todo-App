@@ -20,8 +20,11 @@ public class EditarTaskServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String idStr = request.getParameter("id");
+        Task task = taskDaoJdbc.getById(Integer.parseInt(idStr));
+
         response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println(new EditarTaskPage().render());
+        response.getWriter().println(new EditarTaskPage().render(task));
     }
 
     @Override
