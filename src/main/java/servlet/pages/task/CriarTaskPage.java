@@ -1,52 +1,15 @@
-package pages.task;
+package servlet.pages.task;
 
-import task.Task;
-
-import java.util.List;
-
-public class ListarTaskPage {
-    public String render(List<Task> tasks) {
-        StringBuilder tarefas = new StringBuilder();
-        for (Task t : tasks) {
-            int id = t.getId();
-            String desc = t.getDescricao();
-            boolean concluido = t.getConcluido();
-
-            if (concluido) {
-                tarefas.append(String.format("""
-                                <div id="taskItem" class="task-item">
-                                    <div class="checkbox completed" title="Concluído">
-                                      <svg onclick="this.closest('form').submit()" class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z"></path>
-                                      </svg>
-                                    </div>
-                                    <div class="task-desc completed">%s</div>
-                                    <div class="task-id">#%s</div>
-                                </div>
-                        """, desc, id));
-            } else {
-                tarefas.append(String.format("""
-                            <div id="taskItem" class="task-item">
-                                <div class="checkbox" title="Pendente">
-                                  <svg onclick="this.closest('form').submit()" class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                  </svg>
-                                </div>
-                                <div class="task-desc">%s</div>
-                                <div class="task-id">#%s</div>
-                            </div>
-                        """, desc, id));
-            }
-        }
-
-        return String.format("""
+public class CriarTaskPage {
+    public String render() {
+        return """
                 <!DOCTYPE html>
                 <html lang="pt-BR">
                 
                 <head>
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>Lista de Tarefas</title>
+                    <title>Criar Tarefas</title>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                 
@@ -56,6 +19,9 @@ public class ListarTaskPage {
                             margin: 0;
                             padding: 2rem;
                             color: #333;
+                            display: flex;
+                            align-items: center;
+                            flex-direction: column;
                         }
                 
                         h1 {
@@ -134,20 +100,50 @@ public class ListarTaskPage {
                             height: 18px;
                             fill: currentColor;
                         }
+                
+                        form.delete-form {
+                            margin-left: 1rem;
+                        }
+                
+                        button.delete-btn {
+                            background: none;
+                            border: none;
+                            color: #e74c3c;
+                            cursor: pointer;
+                            font-size: 1.2rem;
+                            line-height: 1;
+                        }
                     </style>
                 </head>
                 
                 <body>
-                    <h1>Minhas Tarefas</h1>
                     <a href="/" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
                         Home
                     </a>
+                    <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
+                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
+                            <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
+                            <input id="descricao" name="descricao" type="text" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
                 
-                    <div class="task-list">
-                        %s
-                    </div>
+                            <fieldset style="border:none; padding:0; margin-bottom: 1.5rem;">
+                                <legend style="font-weight:600; color:#333; margin-bottom: 0.5rem;">Concluído?</legend>
+                                <label style="margin-right: 1rem; cursor: pointer;">
+                                    <input type="radio" name="concluido" value="true" style="margin-right: 0.25rem;" />
+                                    Sim
+                                </label>
+                                <label style="cursor: pointer;">
+                                    <input type="radio" name="concluido" value="false" checked style="margin-right: 0.25rem;" />
+                                    Não
+                                </label>
+                            </fieldset>
+                
+                            <div style="text-align: right;">
+                                <button type="submit" style="background:#3498db; border:none; color:#fff; font-weight:600; padding: 0.5rem 1.5rem; border-radius: 5px; cursor:pointer;">Salvar</button>
+                            </div>
+                        </form>
                 </body>
+                
                 </html>
-                """, tarefas);
+                """;
     }
 }

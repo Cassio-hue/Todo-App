@@ -1,6 +1,6 @@
-package pages.task;
+package servlet.pages.task;
 
-public class DeletarTaskPage {
+public class EditarTaskPage {
     public String render() {
         return """
                 <!DOCTYPE html>
@@ -9,7 +9,7 @@ public class DeletarTaskPage {
                 <head>
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>Deletar de Tarefas</title>
+                    <title>Editar Tarefas</title>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                 
@@ -121,12 +121,27 @@ public class DeletarTaskPage {
                         Home
                     </a>
                     <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
-                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Deletar Tarefa</h2>
+                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Editar Tarefa</h2>
                             <label for="id" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Id</label>
                             <input id="id" name="id" type="number" required style="width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
+
+                            <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
+                            <input id="descricao" name="descricao" type="text" style="width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
+                
+                            <fieldset style="border:none; padding:0; margin-bottom: 1.5rem;">
+                                <legend style="font-weight:600; color:#333; margin-bottom: 0.5rem;">Concluído?</legend>
+                                <label style="margin-right: 1rem; cursor: pointer;">
+                                    <input type="radio" name="concluido" value="true" style="margin-right: 0.25rem;" />
+                                    Sim
+                                </label>
+                                <label style="cursor: pointer;">
+                                    <input type="radio" name="concluido" value="false" checked style="margin-right: 0.25rem;" />
+                                    Não
+                                </label>
+                            </fieldset>
                 
                             <div style="text-align: right;">
-                                <button type="submit" style="background: #E51214; border:none; color:#fff; font-weight:600; padding: 0.5rem 1.5rem; border-radius: 5px; cursor:pointer;">Confirmar</button>
+                                <button type="submit" style="background:#3498db; border:none; color:#fff; font-weight:600; padding: 0.5rem 1.5rem; border-radius: 5px; cursor:pointer;">Salvar</button>
                             </div>
                         </form>
                 </body>

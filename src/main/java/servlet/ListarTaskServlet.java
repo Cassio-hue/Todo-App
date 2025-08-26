@@ -4,10 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pages.task.CriarTaskPage;
-import pages.task.DeletarTaskPage;
-import pages.task.EditarTaskPage;
-import pages.task.ListarTaskPage;
+import servlet.pages.task.ListarTaskPage;
 import task.Task;
 import task.TaskDaoJdbc;
 
@@ -18,13 +15,13 @@ import java.util.List;
 public class ListarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;
 
-
     public ListarTaskServlet() throws SQLException {
         this.taskDaoJdbc = new TaskDaoJdbc();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         List<Task> tasks = taskDaoJdbc.list();
         response.getWriter().println(new ListarTaskPage().render(tasks));
     }

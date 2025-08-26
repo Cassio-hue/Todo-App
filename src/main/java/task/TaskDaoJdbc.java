@@ -13,15 +13,17 @@ public class TaskDaoJdbc implements TaskDao {
 
     public TaskDaoJdbc() throws SQLException {
         this.connection = ConnectionFactory.getConnection();
+        criarTabela();
     }
 
     public TaskDaoJdbc(Connection connection) {
         this.connection = connection;
+        criarTabela();
     }
 
     public void criarTabela() {
         String sql = """
-                    CREATE TABLE Task (
+                    CREATE TABLE IF NOT EXISTS Task (
                         id INT PRIMARY KEY AUTO_INCREMENT,
                         descricao VARCHAR(255),
                         concluido BOOLEAN DEFAULT FALSE

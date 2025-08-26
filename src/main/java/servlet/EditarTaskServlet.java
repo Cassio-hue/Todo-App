@@ -1,19 +1,14 @@
 package servlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import pages.task.CriarTaskPage;
-import pages.task.DeletarTaskPage;
-import pages.task.EditarTaskPage;
-import pages.task.ListarTaskPage;
+import servlet.pages.task.EditarTaskPage;
 import task.Task;
 import task.TaskDaoJdbc;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 public class EditarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;
@@ -50,6 +45,6 @@ public class EditarTaskServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
-        response.sendRedirect(request.getContextPath() + "/");
+        response.sendRedirect(request.getContextPath() + "/listar-task");
     }
 }
