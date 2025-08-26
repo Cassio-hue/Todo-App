@@ -128,7 +128,7 @@ public class EditarTaskPage {
                     <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Editar Tarefa</h2>
                             <label for="id" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Id</label>
-                            <input value="%d" id="id" name="id" type="number" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
+                            <input value="%d" readonly id="id" name="id" type="number" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
 
                             <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
                             <input value="%s" id="descricao" name="descricao" type="text" style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
