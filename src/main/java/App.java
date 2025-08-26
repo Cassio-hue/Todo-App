@@ -1,9 +1,12 @@
+import jakarta.servlet.DispatcherType;
 import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import servlet.*;
+import servlet.MiniServletMVC;
+import servlet.filters.AuthFilter;
+
+import java.util.EnumSet;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -11,6 +14,11 @@ public class App {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
+
+        // Filtro de Autenticação
+        FilterHolder authFilterHolder = new FilterHolder(new AuthFilter());
+        EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST);
+        context.addFilter(authFilterHolder, "/*", dispatcherTypes);
 
         context.addServlet(new ServletHolder(new MiniServletMVC()), "/*");
 
