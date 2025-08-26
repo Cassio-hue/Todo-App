@@ -146,10 +146,12 @@ public class ListarTaskPage {
                 
                 <body>
                     <h1>Minhas Tarefas</h1>
-                    <a href="/" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
-                        Home
-                    </a>
-                
+                    <div style="display: flex; flex-direction: column; text-align: center; width: 100%%; margin-bottom: 24px;">
+                        <a href="/listar-task">Listar Tarefas</a>
+                        <a href="/criar-task">Criar Tarefa</a>
+                        <a href="/editar-task">Editar Tarefa</a>
+                        <a href="/deletar-task">Deletar Tarefa</a>
+                    </div>
                     <div class="task-list">
                         %s
                     </div>

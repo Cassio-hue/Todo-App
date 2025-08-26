@@ -117,8 +117,8 @@ public class CriarTaskPage {
                 </head>
                 
                 <body>
-                    <a href="/" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
-                        Home
+                    <a href="/listar-task" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
+                        Tarefas
                     </a>
                     <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
