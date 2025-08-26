@@ -20,7 +20,7 @@ public class CriarTaskServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println(new CriarTaskPage().render());
+        response.getWriter().println(new CriarTaskPage());
     }
 
     @Override

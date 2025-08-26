@@ -3,15 +3,16 @@ package servlet.pages.task;
 import custom.annotations.Rota;
 import servlet.pages.Page;
 import task.Task;
+import task.TaskDaoJdbc;
 
 import java.util.List;
 import java.util.Map;
 
 @Rota("/listar-task")
-public class ListarTaskPage {
-    public static final String TASKS = "tasks";
-
-    public String render(List<Task> tasks) {
+public class ListarTaskPage implements Page {
+    public String render(Map<String, Object> parameters) {
+        TaskDaoJdbc dao = new TaskDaoJdbc();
+        List<Task> tasks = dao.list();
         StringBuilder tarefas = new StringBuilder();
 
         for (Task t : tasks) {

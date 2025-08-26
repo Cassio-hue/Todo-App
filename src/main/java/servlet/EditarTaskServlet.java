@@ -28,7 +28,7 @@ public class EditarTaskServlet extends HttpServlet {
         Task task = taskDaoJdbc.getById(Integer.parseInt(idStr));
 
         response.setContentType("text/html; charset=UTF-8");
-        response.getWriter().println(new EditarTaskPage().render(task));
+        response.getWriter().println(new EditarTaskPage());
     }
 
     @Override

@@ -1,0 +1,21 @@
+package servlet.pages;
+
+public class HomePage {
+    public static String render() {
+        return """
+                    <!DOCTYPE html>
+                    <html lang="pt-BR">
+                    <head>
+                        <meta charset="UTF-8"/>
+                        <title>TodoApp</title>
+                    </head>
+                    <body style="text-align: center;">
+                        <h1>TodoApp</h1>
+                        <div style="display: flex; flex-direction: column; justify-content: space-around;">
+                            <a href="/listar-task">MiniServlet MVC</a>
+                        </div>
+                    </body>
+                    </html>
+                """;
+    }
+}

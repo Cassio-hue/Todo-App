@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface Page {
-    String render(Map<String, List<Object>> parameters);
+    String render(Map<String, Object> parameters);
 }

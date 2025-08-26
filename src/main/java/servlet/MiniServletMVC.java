@@ -1,49 +1,48 @@
 package servlet;
 
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import task.Task;
-import task.TaskDaoJdbc;
+import servlet.pages.HomePage;
+import servlet.pages.NotFoundPage;
+import servlet.pages.task.CriarTaskPage;
+import servlet.pages.task.DeletarTaskPage;
+import servlet.pages.task.EditarTaskPage;
+import servlet.pages.task.ListarTaskPage;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MiniServletMVC extends HttpServlet {
-//    TaskDaoJdbc dao;
-//
-//    public MiniServletMVC(TaskDaoJdbc dao) {
-//        this.dao = dao;
-//    }
-
     @Override
-    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String uri = request.getRequestURI();
+        Map<String, Object> parameters = new HashMap<>();
+        request.getParameterMap().forEach((key, value) -> {
+            parameters.put(key, value[0]);
+        });
 
+        response.setContentType("text/html; charset=UTF-8");
         switch (uri) {
-            case "/listar-task":
-                RequestDispatcher listarDispatcher = request.getRequestDispatcher("/listar-task");
-                listarDispatcher.forward(request, response);
+            case "/":
+                response.getWriter().write(HomePage.render());
                 break;
-            case "/criar-task":
-                RequestDispatcher criarDispatcher = request.getRequestDispatcher("/criar-task");
-                criarDispatcher.forward(request, response);
+            case "/listar-task":
+                response.getWriter().println(new ListarTaskPage().render(parameters));
                 break;
             case "/editar-task":
-                RequestDispatcher editarDispatcher = request.getRequestDispatcher("/editar-task");
-                editarDispatcher.forward(request, response);
+                response.getWriter().println(new EditarTaskPage().render(parameters));
                 break;
             case "/deletar-task":
-                RequestDispatcher deletarDispatcher = request.getRequestDispatcher("/deletar-task");
-                deletarDispatcher.forward(request, response);
+                response.getWriter().println(new DeletarTaskPage().render(parameters));
+                break;
+            case "/criar-task":
+                response.getWriter().println(new CriarTaskPage().render(parameters));
                 break;
             default:
-                response.sendError(404);
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write(NotFoundPage.render());
                 break;
         }
     }

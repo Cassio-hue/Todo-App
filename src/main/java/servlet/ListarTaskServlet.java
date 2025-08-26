@@ -21,7 +21,7 @@ public class ListarTaskServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         List<Task> tasks = taskDaoJdbc.list();
-        response.getWriter().println(new ListarTaskPage().render(tasks));
+        response.getWriter().println(new ListarTaskPage());
     }
 
     @Override

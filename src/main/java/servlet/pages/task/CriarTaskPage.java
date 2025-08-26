@@ -1,7 +1,28 @@
 package servlet.pages.task;
 
-public class CriarTaskPage {
-    public String render() {
+import servlet.pages.Page;
+import task.Task;
+import task.TaskDaoJdbc;
+
+import java.util.Map;
+
+public class CriarTaskPage implements Page {
+    TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
+
+    public String render(Map<String, Object> parameters) {
+        if  (parameters.containsKey("descricao")) {
+            String desc = parameters.get("descricao").toString();
+            String concluido = parameters.get("concluido").toString();
+            Boolean status = Boolean.parseBoolean(concluido);
+            if (desc != null && !desc.isBlank()) {
+                Task novaTask = new Task();
+                novaTask.setDescricao(desc);
+                novaTask.setConcluido(status);
+                taskDaoJdbc.save(novaTask);
+            }
+            return "<meta http-equiv='refresh' content='0; URL=/listar-task' />";
+        }
+
         return """
                 <!DOCTYPE html>
                 <html lang="pt-BR">

@@ -1,9 +1,41 @@
 package servlet.pages.task;
 
+import servlet.pages.Page;
 import task.Task;
+import task.TaskDao;
+import task.TaskDaoJdbc;
 
-public class EditarTaskPage {
-    public String render(Task task) {
+import java.util.List;
+import java.util.Map;
+
+public class EditarTaskPage implements Page {
+    TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
+
+    public String render(Map<String, Object> parameters) {
+        String idStr;
+        Task task = null;
+        if (parameters.containsKey("id")) {
+            idStr = parameters.get("id").toString();
+            if (idStr != null) {
+                task = taskDaoJdbc.getById(Integer.parseInt(idStr));
+            }
+        }
+
+        if (task == null) {
+            return "<meta http-equiv='refresh' content='0; url=/listar-task' />";
+        }
+
+        if (parameters.containsKey("id") && parameters.containsKey("descricao") && parameters.containsKey("concluido")) {
+            String descricao = parameters.get("descricao").toString();
+            String concluidoParam = parameters.get("concluido").toString();
+            task.setConcluido(Boolean.parseBoolean(concluidoParam));
+            if (descricao != null && !descricao.isBlank()) {
+                task.setDescricao(descricao);
+            }
+            taskDaoJdbc.update(task);
+            return "<meta http-equiv='refresh' content='0; url=/listar-task' />";
+        }
+
         String checkedTrue = task.getConcluido() ? "checked" : "";
         String checkedFalse = !task.getConcluido() ? "checked" : "";
 
@@ -129,7 +161,7 @@ public class EditarTaskPage {
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Editar Tarefa</h2>
                             <label for="id" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Id</label>
                             <input value="%d" readonly id="id" name="id" type="number" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
-
+                
                             <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
                             <input value="%s" id="descricao" name="descricao" type="text" style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
                 

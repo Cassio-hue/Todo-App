@@ -1,0 +1,35 @@
+package servlet.pages;
+
+public class NotFoundPage {
+    public static String render() {
+        return """
+                <!DOCTYPE html>
+                <html lang="pt-BR">
+                <head>
+                    <meta charset="UTF-8"/>
+                    <title>Página não encontrada</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 3rem;
+                            text-align: center;
+                        }
+                        h1 {
+                            font-size: 3rem;
+                            color: #e74c3c;
+                        }
+                
+                        p {
+                            font-size: 1.5rem;
+                        }
+                    </style>
+                </head>
+                <body>
+                <h1>404 - Página não encontrada</h1>
+                <p>Desculpe, a página que você procura não existe.</p>
+                <a href="/">Voltar para a página inicial</a>
+                </body>
+                </html>
+                """;
+    }
+}

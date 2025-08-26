@@ -1,11 +1,9 @@
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.ErrorPageErrorHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import servlet.CriarTaskServlet;
-import servlet.DeletarTaskServlet;
-import servlet.EditarTaskServlet;
-import servlet.ListarTaskServlet;
+import servlet.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -14,15 +12,7 @@ public class App {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
 
-        ServletHolder defaultServlet = new ServletHolder(DefaultServlet.class);
-        defaultServlet.setInitParameter("resourceBase", "src/main/webapp");
-        context.addServlet(defaultServlet, "/");
-
-        // Registrar servlets específicos em seus paths
-        context.addServlet(ListarTaskServlet.class, "/listar-task");
-        context.addServlet(CriarTaskServlet.class, "/criar-task");
-        context.addServlet(EditarTaskServlet.class, "/editar-task");
-        context.addServlet(DeletarTaskServlet.class, "/deletar-task");
+        context.addServlet(new ServletHolder(new MiniServletMVC()), "/*");
 
         server.setHandler(context);
         server.start();
