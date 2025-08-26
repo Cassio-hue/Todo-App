@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import task.TaskDaoJdbc;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class DeletarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;

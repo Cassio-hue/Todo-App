@@ -1,6 +1,5 @@
 package servlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -9,7 +8,6 @@ import task.Task;
 import task.TaskDaoJdbc;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ListarTaskServlet extends HttpServlet {
@@ -27,7 +25,7 @@ public class ListarTaskServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect(request.getContextPath() + "/listar-task");
     }
 }

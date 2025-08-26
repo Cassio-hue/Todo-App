@@ -8,19 +8,23 @@ import task.Task;
 import task.TaskDaoJdbc;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class EditarTaskServlet extends HttpServlet {
     TaskDaoJdbc taskDaoJdbc;
 
 
-    public EditarTaskServlet() throws SQLException {
+    public EditarTaskServlet() {
         this.taskDaoJdbc = new TaskDaoJdbc();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String idStr = request.getParameter("id");
+        if  (idStr == null || idStr.isEmpty()) {
+            response.sendRedirect("/listar-task");
+            return;
+        }
+
         Task task = taskDaoJdbc.getById(Integer.parseInt(idStr));
 
         response.setContentType("text/html; charset=UTF-8");
