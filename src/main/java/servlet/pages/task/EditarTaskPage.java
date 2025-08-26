@@ -1,13 +1,13 @@
 package servlet.pages.task;
 
+import custom.annotations.Rota;
 import servlet.pages.Page;
 import task.Task;
-import task.TaskDao;
 import task.TaskDaoJdbc;
 
-import java.util.List;
 import java.util.Map;
 
+@Rota("/editar-task")
 public class EditarTaskPage implements Page {
     TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
 

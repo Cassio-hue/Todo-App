@@ -1,7 +1,12 @@
 package servlet.pages;
 
-public class HomePage {
-    public static String render() {
+import custom.annotations.Rota;
+
+import java.util.Map;
+
+@Rota("/")
+public class HomePage implements Page {
+    public String render(Map<String, Object> parameters) {
         return """
                     <!DOCTYPE html>
                     <html lang="pt-BR">
