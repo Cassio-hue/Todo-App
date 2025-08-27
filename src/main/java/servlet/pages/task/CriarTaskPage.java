@@ -1,18 +1,19 @@
 package servlet.pages.task;
 
 import custom.annotations.Rota;
+import h2factory.BeanFactory;
 import servlet.pages.Page;
 import task.Task;
-import task.TaskDaoJdbc;
+import task.TaskDao;
 
 import java.util.Map;
 
 @Rota("/criar-task")
 public class CriarTaskPage implements Page {
-    TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
+    TaskDao taskDaoJdbc = BeanFactory.TaskDao();
 
     public String render(Map<String, Object> parameters) {
-        if  (parameters.containsKey("descricao")) {
+        if (parameters.containsKey("descricao")) {
             String desc = parameters.get("descricao").toString();
             String concluido = parameters.get("concluido").toString();
             Boolean status = Boolean.parseBoolean(concluido);
@@ -20,7 +21,7 @@ public class CriarTaskPage implements Page {
                 Task novaTask = new Task();
                 novaTask.setDescricao(desc);
                 novaTask.setConcluido(status);
-                taskDaoJdbc.save(novaTask);
+                taskDaoJdbc.insert(novaTask);
             }
             return "<meta http-equiv='refresh' content='0; URL=/listar-task' />";
         }

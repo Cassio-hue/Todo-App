@@ -1,28 +1,27 @@
 package task;
 
 import java.util.List;
-import java.sql.SQLException;
 
 public interface TaskDao {
-    default void criarTabela() throws SQLException {
+    default void criarTabela() {
     }
 
-    default boolean save(Task t) throws SQLException {
+    default boolean insert(Task t) {
         return false;
     }
 
-    default List<Task> list() throws SQLException {
+    default List<Task> list() {
         return List.of();
     }
 
-    default Task list(int id) throws SQLException {
+    default Task getById(int id) {
         return null;
     }
 
-    default boolean update(Task t) throws SQLException {
+    default boolean update(Task t) {
         return false;
     }
 
-    default void delete(int id) throws SQLException {
+    default void delete(int id) {
     }
 }

@@ -37,15 +37,15 @@ class TaskDaoJdbcTest {
     @Order(0)
     @Test
     @DisplayName("TaskDAO Criar tarefa")
-    void criarTarefa() throws SQLException {
+    void criarTarefa() {
         task = new Task("Tomar agua");
-        assertTrue(dao.save(task));
+        assertTrue(dao.insert(task));
     }
 
     @Order(1)
     @Test
     @DisplayName("TaskDAO Listar uma tarefa")
-    void listarTarefa() throws SQLException {
+    void listarTarefa() {
         List<Task> tasks = dao.list();
         assertNotNull(tasks);
         assertFalse(tasks.isEmpty());
@@ -56,7 +56,7 @@ class TaskDaoJdbcTest {
     @Order(2)
     @Test
     @DisplayName("TaskDAO Editar tarefa")
-    void editarTarefas() throws SQLException {
+    void editarTarefas() {
         List<Task> tasks = dao.list();
         assertFalse(tasks.isEmpty());
         assertNotNull(persistedTask);
@@ -79,7 +79,7 @@ class TaskDaoJdbcTest {
     @Order(3)
     @Test
     @DisplayName("TaskDAO Deletar tarefa")
-    void  deletarTarefa() throws SQLException {
+    void  deletarTarefa() {
         assertTrue(dao.list().contains(persistedTask));
         dao.delete(persistedTask.getId());
         assertFalse(dao.list().contains(persistedTask));

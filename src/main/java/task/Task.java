@@ -1,11 +1,22 @@
 package task;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "Task")
 public class Task {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "descricao")
     private String descricao;
-    private Boolean concluido;
+
+    @Column(name = "concluido")
+    private Boolean concluido = false;
 
     public Task() {}
 

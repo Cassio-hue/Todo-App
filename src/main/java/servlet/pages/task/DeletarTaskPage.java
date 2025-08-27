@@ -1,14 +1,15 @@
 package servlet.pages.task;
 
 import custom.annotations.Rota;
+import h2factory.BeanFactory;
 import servlet.pages.Page;
-import task.TaskDaoJdbc;
+import task.TaskDao;
 
 import java.util.Map;
 
 @Rota("/deletar-task")
 public class DeletarTaskPage implements Page {
-    TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
+    TaskDao taskDaoJdbc = BeanFactory.TaskDao();
 
     public String render(Map<String, Object> parameters) {
         if (parameters.containsKey("id")) {

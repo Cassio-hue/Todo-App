@@ -1,15 +1,16 @@
 package servlet.pages.task;
 
 import custom.annotations.Rota;
+import h2factory.BeanFactory;
 import servlet.pages.Page;
 import task.Task;
-import task.TaskDaoJdbc;
+import task.TaskDao;
 
 import java.util.Map;
 
 @Rota("/editar-task")
 public class EditarTaskPage implements Page {
-    TaskDaoJdbc taskDaoJdbc = new TaskDaoJdbc();
+    TaskDao taskDaoJdbc = BeanFactory.TaskDao();
 
     public String render(Map<String, Object> parameters) {
         String idStr;

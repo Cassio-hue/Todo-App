@@ -1,17 +1,19 @@
 package servlet.pages.task;
 
 import custom.annotations.Rota;
+import h2factory.BeanFactory;
 import servlet.pages.Page;
 import task.Task;
-import task.TaskDaoJdbc;
+import task.TaskDao;
 
 import java.util.List;
 import java.util.Map;
 
 @Rota("/listar-task")
 public class ListarTaskPage implements Page {
+    TaskDao dao = BeanFactory.TaskDao();
+
     public String render(Map<String, Object> parameters) {
-        TaskDaoJdbc dao = new TaskDaoJdbc();
         List<Task> tasks = dao.list();
         StringBuilder tarefas = new StringBuilder();
 
