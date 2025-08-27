@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class MiniServletMVC extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(MiniServletMVC.class.getName());
-    private final Map<String, Class<?>> UriPageMap = new HashMap<>();
+    private final Map<String, Class<?>> uriPageMap = new HashMap<>();
 
 
     @Override
@@ -35,7 +35,7 @@ public class MiniServletMVC extends HttpServlet {
                 String route = (String) routeParamVals.getFirst().getValue();
 
                 Class<?> clazz = routeClassInfo.loadClass();
-                UriPageMap.put(route, clazz);
+                uriPageMap.put(route, clazz);
             }
         }
     }
@@ -51,8 +51,8 @@ public class MiniServletMVC extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
 
         Page page = null;
-        if (UriPageMap.containsKey(uri)) {
-            Class<?> clazz = UriPageMap.get(uri);
+        if (uriPageMap.containsKey(uri)) {
+            Class<?> clazz = uriPageMap.get(uri);
             try {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 page = (Page) instance;
