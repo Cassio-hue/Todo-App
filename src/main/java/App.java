@@ -8,7 +8,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
-import springmvc.WebConfig;
+import springmvc.AppConfig;
 
 import java.util.EnumSet;
 
@@ -34,7 +34,7 @@ public class App {
 
         // Config DispatcherServlet para o Spring
         AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
-        webContext.register(WebConfig.class);
+        webContext.register(AppConfig.class);
         ServletHolder springMvc = new ServletHolder(new DispatcherServlet(webContext));
         context.addServlet(springMvc, "/spring-mvc/*");
 

@@ -28,7 +28,6 @@ public class BeanFactory {
                 .setProperty(JAKARTA_JDBC_URL, URL_MEM)
                 .setProperty(JAKARTA_JDBC_USER, USER)
                 .setProperty(JAKARTA_JDBC_PASSWORD, PASSWORD)
-                .setProperty("hibernate.agroal.maxSize", 20)
                 .buildSessionFactory();
 
         sessionFactory.getSchemaManager().exportMappedObjects(true);
