@@ -14,7 +14,7 @@ class TaskDaoHibernateTest {
 
     @BeforeAll
     public static void setUp() {
-        taskDaoHibernate = new TaskDaoHibernate(true);
+        taskDaoHibernate = new TaskDaoHibernate();
     }
 
     @Order(0)

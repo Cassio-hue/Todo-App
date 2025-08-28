@@ -18,13 +18,7 @@ class TaskDaoJdbcTest {
 
     @BeforeAll
     public static void setUp() throws SQLException {
-        String jdbcURL = "jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1";
-        String user = "sa";
-        String password = "";
-        connection = DriverManager.getConnection(jdbcURL, user, password);
-
-        dao = new TaskDaoJdbc(connection);
-        dao.criarTabela();
+        dao = new TaskDaoJdbc();
     }
 
     @AfterAll

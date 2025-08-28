@@ -1,6 +1,6 @@
 package task;
 
-import h2factory.ConnectionUtil;
+import h2factory.BeanFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,17 +11,9 @@ import java.util.logging.Logger;
 public class TaskDaoJdbc implements TaskDao {
     private final Connection connection;
 
-    public TaskDaoJdbc(Connection connection) {
-        this.connection = connection;
-    }
-
     public TaskDaoJdbc() {
-        try {
-            this.connection = ConnectionUtil.getConnection();
-            criarTabela();
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao abrir conexão com banco de dados: " + ex);
-        }
+        this.connection = BeanFactory.getConnection();
+        criarTabela();
     }
 
     public void criarTabela() {

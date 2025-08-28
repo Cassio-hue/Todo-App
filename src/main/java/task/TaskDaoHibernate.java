@@ -1,6 +1,6 @@
 package task;
 
-import h2factory.HibernateUtil;
+import h2factory.BeanFactory;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
@@ -11,11 +11,7 @@ public class TaskDaoHibernate implements TaskDao {
     SessionFactory hibernateFactory;
 
     public TaskDaoHibernate() {
-        hibernateFactory = new HibernateUtil().getSessionFactory();
-    }
-
-    public TaskDaoHibernate(boolean testMode) {
-        hibernateFactory = new HibernateUtil(testMode).getSessionFactory();
+        hibernateFactory = BeanFactory.getSessionFactory();
     }
 
     public boolean insert(Task task) {
