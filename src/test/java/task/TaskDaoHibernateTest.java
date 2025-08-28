@@ -1,6 +1,5 @@
 package task;
 
-import h2factory.HibernateUtil;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -15,7 +14,7 @@ class TaskDaoHibernateTest {
 
     @BeforeAll
     public static void setUp() {
-        taskDaoHibernate = new TaskDaoHibernate(HibernateUtil.DatabaseType.IN_MEMORY);
+        taskDaoHibernate = new TaskDaoHibernate(true);
     }
 
     @Order(0)
