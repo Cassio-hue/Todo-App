@@ -1,4 +1,4 @@
-package servlet.pages;
+package custommvc.servlet.pages;
 
 public class NotFoundPage {
     public static String render() {

@@ -1,10 +1,10 @@
-package servlet.pages.task;
+package custommvc.servlet.pages.task;
 
-import custom.annotations.Rota;
+import custommvc.servlet.annotations.Rota;
 import h2factory.BeanFactory;
-import servlet.pages.Page;
-import task.Task;
-import task.TaskDao;
+import custommvc.servlet.pages.Page;
+import h2factory.task.Task;
+import h2factory.task.TaskDao;
 
 import java.util.List;
 import java.util.Map;
@@ -31,11 +31,11 @@ public class ListarTaskPage implements Page {
                                       </svg>
                                     </div>
                                     <div class="task-desc completed">%s</div>
-                                    <form method="GET" action="/editar-task" style="margin-right: 8px;">
+                                    <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
                                         <input type="hidden" name="id" value="%s"/>
                                         <button type="submit">Editar</button>
                                     </form>
-                                    <form method="POST" action="/deletar-task">
+                                    <form method="POST" action="/custom-mvc/deletar-task">
                                         <input type="hidden" name="id" value="%s"/>
                                         <button type="submit">Excluir</button>
                                     </form>
@@ -50,11 +50,11 @@ public class ListarTaskPage implements Page {
                                   </svg>
                                 </div>
                                 <div class="task-desc">%s</div>
-                                <form method="GET" action="/editar-task" style="margin-right: 8px;">
+                                <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
                                     <input type="hidden" name="id" value="%s"/>
                                     <button type="submit">Editar</button>
                                 </form>
-                                <form method="POST" action="/deletar-task">
+                                <form method="POST" action="/custom-mvc/deletar-task">
                                     <input type="hidden" name="id" value="%s"/>
                                     <button type="submit">Excluir</button>
                                 </form>
@@ -163,7 +163,7 @@ public class ListarTaskPage implements Page {
                 
                 <body>
                     <h1>Minhas Tarefas</h1>
-                    <a href="/criar-task" style="display: flex; justify-content: center; padding: 16px;">Criar Tarefas</a>
+                    <a href="/custom-mvc/criar-task" style="display: flex; justify-content: center; padding: 16px;">Criar Tarefas</a>
                     <div class="task-list">
                         %s
                     </div>

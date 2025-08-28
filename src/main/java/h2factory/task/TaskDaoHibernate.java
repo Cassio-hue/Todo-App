@@ -1,4 +1,4 @@
-package task;
+package h2factory.task;
 
 import h2factory.BeanFactory;
 import org.hibernate.SessionFactory;

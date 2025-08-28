@@ -2,9 +2,9 @@ package h2factory;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import task.Task;
-import task.TaskDao;
-import task.TaskDaoHibernate;
+import h2factory.task.Task;
+import h2factory.task.TaskDao;
+import h2factory.task.TaskDaoHibernate;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

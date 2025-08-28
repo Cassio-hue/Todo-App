@@ -1,9 +1,9 @@
-package servlet.pages.task;
+package custommvc.servlet.pages.task;
 
-import custom.annotations.Rota;
+import custommvc.servlet.annotations.Rota;
 import h2factory.BeanFactory;
-import servlet.pages.Page;
-import task.TaskDao;
+import custommvc.servlet.pages.Page;
+import h2factory.task.TaskDao;
 
 import java.util.Map;
 
@@ -17,6 +17,6 @@ public class DeletarTaskPage implements Page {
             taskDaoJdbc.delete(id);
         }
 
-        return "<meta http-equiv='refresh' content='0; url=/listar-task' />";
+        return "<meta http-equiv='refresh' content='0; url=/custom-mvc/listar-task' />";
     }
 }

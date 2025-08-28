@@ -1,6 +1,6 @@
-package servlet.pages;
+package custommvc.servlet.pages;
 
-import custom.annotations.Rota;
+import custommvc.servlet.annotations.Rota;
 
 import java.util.Map;
 
@@ -17,7 +17,7 @@ public class HomePage implements Page {
                     <body style="text-align: center;">
                         <h1>TodoApp</h1>
                         <div style="display: flex; flex-direction: column; justify-content: space-around;">
-                            <a href="/listar-task">MiniServlet MVC</a>
+                            <a href="/custom-mvc/listar-task">MiniServlet MVC</a>
                         </div>
                     </body>
                     </html>

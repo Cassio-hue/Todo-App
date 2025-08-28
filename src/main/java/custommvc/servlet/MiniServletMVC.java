@@ -1,12 +1,12 @@
-package servlet;
+package custommvc.servlet;
 
-import custom.annotations.Rota;
+import custommvc.servlet.annotations.Rota;
 import io.github.classgraph.*;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import servlet.pages.NotFoundPage;
-import servlet.pages.Page;
+import custommvc.servlet.pages.NotFoundPage;
+import custommvc.servlet.pages.Page;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class MiniServletMVC extends HttpServlet {
 
     @Override
     public void init() {
-        String pkg = "servlet.pages";
+        String pkg = "custommvc.servlet.pages";
         String routeAnnotation = Rota.class.getName();
         try (ScanResult scanResult =
                      new ClassGraph()
@@ -43,7 +43,7 @@ public class MiniServletMVC extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String uri = request.getRequestURI();
+        String path = request.getRequestURI().replaceFirst(request.getServletPath(), "");
         Map<String, Object> parameters = new HashMap<>();
         request.getParameterMap().forEach((key, value) -> {
             parameters.put(key, value[0]);
@@ -51,8 +51,8 @@ public class MiniServletMVC extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
 
         Page page = null;
-        if (uriPageMap.containsKey(uri)) {
-            Class<?> clazz = uriPageMap.get(uri);
+        if (uriPageMap.containsKey(path)) {
+            Class<?> clazz = uriPageMap.get(path);
             try {
                 Object instance = clazz.getDeclaredConstructor().newInstance();
                 page = (Page) instance;

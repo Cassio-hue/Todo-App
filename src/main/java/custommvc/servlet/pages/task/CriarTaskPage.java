@@ -1,53 +1,39 @@
-package servlet.pages.task;
+package custommvc.servlet.pages.task;
 
-import custom.annotations.Rota;
+import custommvc.servlet.annotations.Rota;
 import h2factory.BeanFactory;
-import servlet.pages.Page;
-import task.Task;
-import task.TaskDao;
+import custommvc.servlet.pages.Page;
+import h2factory.task.Task;
+import h2factory.task.TaskDao;
 
 import java.util.Map;
 
-@Rota("/editar-task")
-public class EditarTaskPage implements Page {
+@Rota("/criar-task")
+public class CriarTaskPage implements Page {
     TaskDao taskDaoJdbc = BeanFactory.TaskDao();
 
     public String render(Map<String, Object> parameters) {
-        String idStr;
-        Task task = null;
-        if (parameters.containsKey("id")) {
-            idStr = parameters.get("id").toString();
-            if (idStr != null) {
-                task = taskDaoJdbc.getById(Integer.parseInt(idStr));
+        if (parameters.containsKey("descricao")) {
+            String desc = parameters.get("descricao").toString();
+            String concluido = parameters.get("concluido").toString();
+            Boolean status = Boolean.parseBoolean(concluido);
+            if (desc != null && !desc.isBlank()) {
+                Task novaTask = new Task();
+                novaTask.setDescricao(desc);
+                novaTask.setConcluido(status);
+                taskDaoJdbc.insert(novaTask);
             }
+            return "<meta http-equiv='refresh' content='0; URL=/custom-mvc/listar-task' />";
         }
 
-        if (task == null) {
-            return "<meta http-equiv='refresh' content='0; url=/listar-task' />";
-        }
-
-        if (parameters.containsKey("id") && parameters.containsKey("descricao") && parameters.containsKey("concluido")) {
-            String descricao = parameters.get("descricao").toString();
-            String concluidoParam = parameters.get("concluido").toString();
-            task.setConcluido(Boolean.parseBoolean(concluidoParam));
-            if (descricao != null && !descricao.isBlank()) {
-                task.setDescricao(descricao);
-            }
-            taskDaoJdbc.update(task);
-            return "<meta http-equiv='refresh' content='0; url=/listar-task' />";
-        }
-
-        String checkedTrue = task.getConcluido() ? "checked" : "";
-        String checkedFalse = !task.getConcluido() ? "checked" : "";
-
-        return String.format("""
+        return """
                 <!DOCTYPE html>
                 <html lang="pt-BR">
                 
                 <head>
                     <meta charset="UTF-8" />
                     <meta name="viewport" content="width=device-width, initial-scale=1" />
-                    <title>Editar Tarefas</title>
+                    <title>Criar Tarefas</title>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
                 
@@ -155,25 +141,22 @@ public class EditarTaskPage implements Page {
                 </head>
                 
                 <body>
-                    <a href="/listar-task" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
+                    <a href="/custom-mvc/listar-task" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
                         Tarefas
                     </a>
-                    <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
-                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Editar Tarefa</h2>
-                            <label for="id" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Id</label>
-                            <input value="%d" readonly id="id" name="id" type="number" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
-                
+                    <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
+                            <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
                             <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
-                            <input value="%s" id="descricao" name="descricao" type="text" style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
+                            <input id="descricao" name="descricao" type="text" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
                 
                             <fieldset style="border:none; padding:0; margin-bottom: 1.5rem;">
                                 <legend style="font-weight:600; color:#333; margin-bottom: 0.5rem;">Concluído?</legend>
                                 <label style="margin-right: 1rem; cursor: pointer;">
-                                    <input type="radio" name="concluido" value="true" %s style="margin-right: 0.25rem;" />
+                                    <input type="radio" name="concluido" value="true" style="margin-right: 0.25rem;" />
                                     Sim
                                 </label>
                                 <label style="cursor: pointer;">
-                                    <input type="radio" name="concluido" value="false" %s style="margin-right: 0.25rem;" />
+                                    <input type="radio" name="concluido" value="false" checked style="margin-right: 0.25rem;" />
                                     Não
                                 </label>
                             </fieldset>
@@ -185,6 +168,6 @@ public class EditarTaskPage implements Page {
                 </body>
                 
                 </html>
-                """, task.getId(), task.getDescricao(), checkedTrue, checkedFalse);
+                """;
     }
 }

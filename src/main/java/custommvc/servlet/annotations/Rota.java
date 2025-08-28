@@ -1,4 +1,4 @@
-package custom.annotations;
+package custommvc.servlet.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

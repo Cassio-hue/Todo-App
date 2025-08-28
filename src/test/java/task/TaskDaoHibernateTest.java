@@ -1,5 +1,7 @@
 package task;
 
+import h2factory.task.Task;
+import h2factory.task.TaskDaoHibernate;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
