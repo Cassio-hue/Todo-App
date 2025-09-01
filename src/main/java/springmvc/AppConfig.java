@@ -11,7 +11,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "springmvc.controllers")
+@ComponentScan(basePackages = {"springmvc.controllers", "custommvc.servlet", "h2factory"})
 public class AppConfig {
     @Bean
     public ClassLoaderTemplateResolver templateResolver() {

@@ -1,16 +1,21 @@
 package custommvc.servlet.pages.task;
 
 import custommvc.servlet.annotations.Rota;
-import h2factory.BeanFactory;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
+@Component
 @Rota("/criar-task")
 public class CriarTaskPage implements Page {
-    TaskDao taskDaoJdbc = BeanFactory.TaskDao();
+    @Qualifier("taskDaoJdbc")
+    @Autowired
+    TaskDao taskDaoJdbc;
 
     public String render(Map<String, Object> parameters) {
         if (parameters.containsKey("descricao")) {

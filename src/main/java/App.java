@@ -30,11 +30,15 @@ public class App {
         EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST);
         context.addFilter(authFilterHolder, "/*", dispatcherTypes);
 
-        context.addServlet(new ServletHolder(new MiniServletMVC()), "/custom-mvc/*");
-
         // Config DispatcherServlet para o Spring
         AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
         webContext.register(AppConfig.class);
+        webContext.setServletContext(context.getServletContext()); // FIX: exception with message: No ServletContext set at org.springframework.beans.factory.support.ConstructorResolver
+        webContext.refresh();                                      // FIX: BeanFactory not initialized or already closed - call 'refresh' before accessing beans via the ApplicationContext
+
+        MiniServletMVC miniServlet = webContext.getBean(MiniServletMVC.class);
+        context.addServlet(new ServletHolder(miniServlet), "/custom-mvc/*");
+
         ServletHolder springMvc = new ServletHolder(new DispatcherServlet(webContext));
         context.addServlet(springMvc, "/spring-mvc/*");
 

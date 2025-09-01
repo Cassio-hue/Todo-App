@@ -1,17 +1,32 @@
 package h2factory.task;
 
-import h2factory.BeanFactory;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static org.hibernate.cfg.JdbcSettings.*;
+
 public class TaskDaoHibernate implements TaskDao {
     SessionFactory hibernateFactory;
 
     public TaskDaoHibernate() {
-        hibernateFactory = BeanFactory.getSessionFactory();
+        hibernateFactory = getSessionFactory();
+    }
+
+    public static SessionFactory getSessionFactory() {
+        var sessionFactory = new Configuration()
+                .addAnnotatedClass(Task.class)
+                .setProperty(JAKARTA_JDBC_URL, "jdbc:h2:mem:db1")
+                .setProperty(JAKARTA_JDBC_USER, "sa")
+                .setProperty(JAKARTA_JDBC_PASSWORD, "")
+                .buildSessionFactory();
+
+        sessionFactory.getSchemaManager().exportMappedObjects(true);
+
+        return sessionFactory;
     }
 
     public boolean insert(Task task) {

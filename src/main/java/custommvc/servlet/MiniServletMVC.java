@@ -1,41 +1,36 @@
 package custommvc.servlet;
 
 import custommvc.servlet.annotations.Rota;
-import io.github.classgraph.*;
+import custommvc.servlet.pages.NotFoundPage;
+import custommvc.servlet.pages.Page;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import custommvc.servlet.pages.NotFoundPage;
-import custommvc.servlet.pages.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public class MiniServletMVC extends HttpServlet {
-    private static final Logger LOGGER = Logger.getLogger(MiniServletMVC.class.getName());
-    private final Map<String, Class<?>> uriPageMap = new HashMap<>();
+@Component
+public class MiniServletMVC extends HttpServlet { ;
+    private final Map<String, Page> uriPageMap = new HashMap<>();
+    private final Collection<Page> pages;
 
+    @Autowired
+    public MiniServletMVC(Collection<Page> pages) {
+        this.pages = pages;
+    }
 
-    @Override
+    @PostConstruct
     public void init() {
-        String pkg = "custommvc.servlet.pages";
-        String routeAnnotation = Rota.class.getName();
-        try (ScanResult scanResult =
-                     new ClassGraph()
-                             .enableAllInfo()
-                             .acceptPackages(pkg)
-                             .scan()) {
-            for (ClassInfo routeClassInfo : scanResult.getClassesWithAnnotation(routeAnnotation)) {
-                AnnotationInfo routeAnnotationInfo = routeClassInfo.getAnnotationInfo(routeAnnotation);
-                List<AnnotationParameterValue> routeParamVals = routeAnnotationInfo.getParameterValues();
-                String route = (String) routeParamVals.getFirst().getValue();
-
-                Class<?> clazz = routeClassInfo.loadClass();
-                uriPageMap.put(route, clazz);
+        for (Page page : pages) {
+            Rota rota = page.getClass().getAnnotation(Rota.class);
+            if (rota != null) {
+                uriPageMap.put(rota.value(), page);
             }
         }
     }
@@ -50,16 +45,7 @@ public class MiniServletMVC extends HttpServlet {
         });
         response.setContentType("text/html; charset=UTF-8");
 
-        Page page = null;
-        if (uriPageMap.containsKey(path)) {
-            Class<?> clazz = uriPageMap.get(path);
-            try {
-                Object instance = clazz.getDeclaredConstructor().newInstance();
-                page = (Page) instance;
-            } catch (Exception e) {
-                LOGGER.log(Level.SEVERE, "Erro ao instanciar página: " + clazz.getName(), e);
-            }
-        }
+        Page page = uriPageMap.get(path);
 
         if (page == null) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);

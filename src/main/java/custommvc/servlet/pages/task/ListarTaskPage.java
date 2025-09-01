@@ -1,20 +1,25 @@
 package custommvc.servlet.pages.task;
 
 import custommvc.servlet.annotations.Rota;
-import h2factory.BeanFactory;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 @Rota("/listar-task")
 public class ListarTaskPage implements Page {
-    TaskDao dao = BeanFactory.TaskDao();
+    @Qualifier("taskDaoJdbc")
+    @Autowired
+    TaskDao taskDaoJdbc;
 
     public String render(Map<String, Object> parameters) {
-        List<Task> tasks = dao.list();
+        List<Task> tasks = taskDaoJdbc.list();
         StringBuilder tarefas = new StringBuilder();
 
         for (Task t : tasks) {
