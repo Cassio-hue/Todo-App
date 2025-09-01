@@ -25,7 +25,6 @@ public class MiniServletMVC extends HttpServlet { ;
         this.pages = pages;
     }
 
-    @PostConstruct
     public void init() {
         for (Page page : pages) {
             Rota rota = page.getClass().getAnnotation(Rota.class);
