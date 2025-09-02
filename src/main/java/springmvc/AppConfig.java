@@ -1,5 +1,9 @@
 package springmvc;
 
+import h2factory.task.Task;
+import h2factory.task.TaskDao;
+import h2factory.task.TaskDaoHibernate;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +12,12 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import static org.hibernate.cfg.JdbcSettings.*;
 
 @Configuration
 @EnableWebMvc
@@ -37,5 +47,33 @@ public class AppConfig {
         resolver.setTemplateEngine(templateEngine());
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
+    }
+
+    @Bean
+    public TaskDao TaskRepository(SessionFactory sessionFactory) {
+        return new TaskDaoHibernate(sessionFactory);
+    }
+
+    @Bean
+    public static SessionFactory sessionFactory() {
+        var sessionFactory = new org.hibernate.cfg.Configuration()
+                .addAnnotatedClass(Task.class)
+                .setProperty(JAKARTA_JDBC_URL, "jdbc:h2:mem:db1")
+                .setProperty(JAKARTA_JDBC_USER, "sa")
+                .setProperty(JAKARTA_JDBC_PASSWORD, "")
+                .buildSessionFactory();
+
+        sessionFactory.getSchemaManager().exportMappedObjects(true);
+
+        return sessionFactory;
+    }
+
+    @Bean
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:h2:mem:db1", "sa", "");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao iniciar conexão", ex);
+        }
     }
 }

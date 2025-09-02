@@ -3,25 +3,13 @@ package h2factory.task;
 import java.util.List;
 
 public interface TaskDao {
-    default void criarTabela() {
-    }
+    boolean insert(Task t);
 
-    default boolean insert(Task t) {
-        return false;
-    }
+    List<Task> list();
 
-    default List<Task> list() {
-        return List.of();
-    }
+    Task getById(int id);
 
-    default Task getById(int id) {
-        return null;
-    }
+    boolean update(Task t);
 
-    default boolean update(Task t) {
-        return false;
-    }
-
-    default void delete(int id) {
-    }
+    void delete(int id);
 }

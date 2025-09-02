@@ -9,17 +9,9 @@ import java.util.logging.Logger;
 public class TaskDaoJdbc implements TaskDao {
     private final Connection connection;
 
-    public TaskDaoJdbc() {
-        this.connection = getConnection();
+    public TaskDaoJdbc(Connection connection) {
+        this.connection = connection;
         criarTabela();
-    }
-
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:h2:mem:db1", "sa", "");
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao iniciar conexão", ex);
-        }
     }
 
     public void criarTabela() {
@@ -37,6 +29,7 @@ public class TaskDaoJdbc implements TaskDao {
         }
     }
 
+    @Override
     public boolean insert(Task t) {
         String sql = """
                     INSERT INTO Task (
@@ -54,6 +47,7 @@ public class TaskDaoJdbc implements TaskDao {
         }
     }
 
+    @Override
     public List<Task> list() {
         List<Task> tasks = new ArrayList<>();
         String sql = "SELECT * FROM Task";
@@ -74,6 +68,7 @@ public class TaskDaoJdbc implements TaskDao {
         return tasks;
     }
 
+    @Override
     public Task getById(int id) {
         String sql = "SELECT * FROM Task WHERE id = ?";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {
@@ -94,6 +89,7 @@ public class TaskDaoJdbc implements TaskDao {
         return null;
     }
 
+    @Override
     public boolean update(Task t) {
         String sql = """
                     UPDATE Task SET
@@ -113,6 +109,7 @@ public class TaskDaoJdbc implements TaskDao {
         }
     }
 
+    @Override
     public void delete(int id) {
         String sql = "DELETE FROM Task WHERE id = ?;";
         try (PreparedStatement ps = this.connection.prepareStatement(sql)) {

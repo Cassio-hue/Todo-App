@@ -1,34 +1,20 @@
 package h2factory.task;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.hibernate.cfg.JdbcSettings.*;
 
 public class TaskDaoHibernate implements TaskDao {
-    SessionFactory hibernateFactory;
+    private final SessionFactory hibernateFactory;
 
-    public TaskDaoHibernate() {
-        hibernateFactory = getSessionFactory();
+    public TaskDaoHibernate(SessionFactory sessionFactory) {
+        hibernateFactory = sessionFactory;
     }
 
-    public static SessionFactory getSessionFactory() {
-        var sessionFactory = new Configuration()
-                .addAnnotatedClass(Task.class)
-                .setProperty(JAKARTA_JDBC_URL, "jdbc:h2:mem:db1")
-                .setProperty(JAKARTA_JDBC_USER, "sa")
-                .setProperty(JAKARTA_JDBC_PASSWORD, "")
-                .buildSessionFactory();
-
-        sessionFactory.getSchemaManager().exportMappedObjects(true);
-
-        return sessionFactory;
-    }
-
+    @Override
     public boolean insert(Task task) {
         try {
             hibernateFactory.inTransaction(s -> s.persist(task));
@@ -39,6 +25,7 @@ public class TaskDaoHibernate implements TaskDao {
         }
     }
 
+    @Override
     public List<Task> list() {
         try {
             return hibernateFactory.fromTransaction(session -> session.createQuery("from Task", Task.class).list());
@@ -48,6 +35,7 @@ public class TaskDaoHibernate implements TaskDao {
         }
     }
 
+    @Override
     public Task getById(int id) {
         try {
             return hibernateFactory.fromTransaction(session -> session.find(Task.class, id));
@@ -57,6 +45,7 @@ public class TaskDaoHibernate implements TaskDao {
         }
     }
 
+    @Override
     public boolean update(Task task) {
         try {
             hibernateFactory.inTransaction(session -> session.merge(task));
@@ -67,6 +56,7 @@ public class TaskDaoHibernate implements TaskDao {
         }
     }
 
+    @Override
     public void delete(int id) {
         try {
             hibernateFactory.inTransaction(session -> {

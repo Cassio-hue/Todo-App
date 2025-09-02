@@ -18,8 +18,8 @@ class TaskDaoJdbcTest {
     private static Task persistedTask;
 
     @BeforeAll
-    public static void setUp() throws SQLException {
-        dao = new TaskDaoJdbc();
+    public static void setUp() {
+        dao = new TaskDaoJdbc(connection);
     }
 
     @AfterAll

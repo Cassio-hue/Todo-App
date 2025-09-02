@@ -4,8 +4,6 @@ import custommvc.servlet.annotations.Rota;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -13,9 +11,11 @@ import java.util.Map;
 @Component
 @Rota("/criar-task")
 public class CriarTaskPage implements Page {
-    @Qualifier("taskDaoJdbc")
-    @Autowired
-    TaskDao taskDaoJdbc;
+
+    private final TaskDao taskRepository;
+    CriarTaskPage(TaskDao taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public String render(Map<String, Object> parameters) {
         if (parameters.containsKey("descricao")) {
@@ -26,7 +26,7 @@ public class CriarTaskPage implements Page {
                 Task novaTask = new Task();
                 novaTask.setDescricao(desc);
                 novaTask.setConcluido(status);
-                taskDaoJdbc.insert(novaTask);
+                taskRepository.insert(novaTask);
             }
             return "<meta http-equiv='refresh' content='0; URL=/custom-mvc/listar-task' />";
         }

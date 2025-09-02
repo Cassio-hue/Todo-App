@@ -79,13 +79,6 @@
             font-style: italic;
         }
 
-        .task-id {
-            font-size: 0.8rem;
-            color: #bbb;
-            margin-left: 1rem;
-            flex-shrink: 0;
-        }
-
         .check-icon {
             width: 18px;
             height: 18px;
@@ -114,7 +107,7 @@
             </svg>
 
             <!-- Ícone quadrado pendente -->
-            <svg class="check-icon" viewBox="0 0 24 24" fill="none"
+            <svg class="check-icon" viewBox="0 0 24 24"
                  stroke="#3498db" stroke-width="2" stroke-linecap="round"
                  stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"
                  th:if="${!task.concluido}">

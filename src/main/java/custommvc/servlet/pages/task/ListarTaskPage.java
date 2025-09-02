@@ -4,8 +4,6 @@ import custommvc.servlet.annotations.Rota;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,59 +12,14 @@ import java.util.Map;
 @Component
 @Rota("/listar-task")
 public class ListarTaskPage implements Page {
-    @Qualifier("taskDaoJdbc")
-    @Autowired
-    TaskDao taskDaoJdbc;
+    private final TaskDao taskRepository;
+    ListarTaskPage(TaskDao taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     public String render(Map<String, Object> parameters) {
-        List<Task> tasks = taskDaoJdbc.list();
-        StringBuilder tarefas = new StringBuilder();
-
-        for (Task t : tasks) {
-            int id = t.getId();
-            String desc = t.getDescricao();
-            boolean concluido = t.getConcluido();
-
-            if (concluido) {
-                tarefas.append(String.format("""
-                                <div id="taskItem" class="task-item">
-                                    <div class="checkbox completed" title="Concluído">
-                                      <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z"></path>
-                                      </svg>
-                                    </div>
-                                    <div class="task-desc completed">%s</div>
-                                    <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
-                                        <input type="hidden" name="id" value="%s"/>
-                                        <button type="submit">Editar</button>
-                                    </form>
-                                    <form method="POST" action="/custom-mvc/deletar-task">
-                                        <input type="hidden" name="id" value="%s"/>
-                                        <button type="submit">Excluir</button>
-                                    </form>
-                                </div>
-                        """, desc, id, id));
-            } else {
-                tarefas.append(String.format("""
-                            <div id="taskItem" class="task-item">
-                                <div class="checkbox" title="Pendente">
-                                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                  </svg>
-                                </div>
-                                <div class="task-desc">%s</div>
-                                <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
-                                    <input type="hidden" name="id" value="%s"/>
-                                    <button type="submit">Editar</button>
-                                </form>
-                                <form method="POST" action="/custom-mvc/deletar-task">
-                                    <input type="hidden" name="id" value="%s"/>
-                                    <button type="submit">Excluir</button>
-                                </form>
-                            </div>
-                        """, desc, id, id));
-            }
-        }
+        List<Task> tasks = taskRepository.list();
+        StringBuilder tarefas = buildTarefasHtml(tasks);
 
         return String.format("""
                 <!DOCTYPE html>
@@ -175,5 +128,56 @@ public class ListarTaskPage implements Page {
                 </body>
                 </html>
                 """, tarefas);
+    }
+
+    private static StringBuilder buildTarefasHtml(List<Task> tasks) {
+        StringBuilder tarefas = new StringBuilder();
+
+        for (Task t : tasks) {
+            int id = t.getId();
+            String desc = t.getDescricao();
+            boolean concluido = t.getConcluido();
+
+            if (concluido) {
+                tarefas.append(String.format("""
+                                <div id="taskItem" class="task-item">
+                                    <div class="checkbox completed" title="Concluído">
+                                      <svg class="check-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z"></path>
+                                      </svg>
+                                    </div>
+                                    <div class="task-desc completed">%s</div>
+                                    <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
+                                        <input type="hidden" name="id" value="%s"/>
+                                        <button type="submit">Editar</button>
+                                    </form>
+                                    <form method="POST" action="/custom-mvc/deletar-task">
+                                        <input type="hidden" name="id" value="%s"/>
+                                        <button type="submit">Excluir</button>
+                                    </form>
+                                </div>
+                        """, desc, id, id));
+            } else {
+                tarefas.append(String.format("""
+                            <div id="taskItem" class="task-item">
+                                <div class="checkbox" title="Pendente">
+                                  <svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="#3498db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                  </svg>
+                                </div>
+                                <div class="task-desc">%s</div>
+                                <form method="GET" action="/custom-mvc/editar-task" style="margin-right: 8px;">
+                                    <input type="hidden" name="id" value="%s"/>
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form method="POST" action="/custom-mvc/deletar-task">
+                                    <input type="hidden" name="id" value="%s"/>
+                                    <button type="submit">Excluir</button>
+                                </form>
+                            </div>
+                        """, desc, id, id));
+            }
+        }
+        return tarefas;
     }
 }
