@@ -12,9 +12,9 @@ import java.util.Map;
 @Rota("/criar-task")
 public class CriarTaskPage implements Page {
 
-    private final TaskDao taskRepository;
-    CriarTaskPage(TaskDao taskRepository) {
-        this.taskRepository = taskRepository;
+    private final TaskDao taskDao;
+    CriarTaskPage(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 
     public String render(Map<String, Object> parameters) {
@@ -26,7 +26,7 @@ public class CriarTaskPage implements Page {
                 Task novaTask = new Task();
                 novaTask.setDescricao(desc);
                 novaTask.setConcluido(status);
-                taskRepository.insert(novaTask);
+                taskDao.insert(novaTask);
             }
             return "<meta http-equiv='refresh' content='0; URL=/custom-mvc/listar-task' />";
         }

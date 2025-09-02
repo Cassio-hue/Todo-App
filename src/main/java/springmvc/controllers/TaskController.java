@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class TaskController {
 
-    private final TaskDao taskRepository;
-    TaskController(TaskDao taskRepository) {
-        this.taskRepository = taskRepository;
+    private final TaskDao taskDao;
+    TaskController(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 
     @GetMapping("/listar-task")
     public String listarTasks(Model model) {
-        model.addAttribute("tasks", taskRepository.list());
+        model.addAttribute("tasks", taskDao.list());
         return "listar-task";
     }
 
@@ -31,26 +31,26 @@ public class TaskController {
 
     @PostMapping("/criar-task")
     public String criarTask(@ModelAttribute Task task) {
-        taskRepository.insert(task);
+        taskDao.insert(task);
         return "redirect:/spring-mvc/listar-task";
     }
 
     @GetMapping("/editar-task")
     public String editarTask(@RequestParam("id") int id, Model model) {
-        Task task = taskRepository.getById(id);
+        Task task = taskDao.getById(id);
         model.addAttribute("task", task);
         return "editar-task";
     }
 
     @PostMapping("/editar-task")
     public String editarTask(@ModelAttribute Task task) {
-        taskRepository.update(task);
+        taskDao.update(task);
         return "redirect:/spring-mvc/listar-task";
     }
 
     @PostMapping("/deletar-task")
     public String deletarTask(@RequestParam("id") int id) {
-        taskRepository.delete(id);
+        taskDao.delete(id);
         return "redirect:/spring-mvc/listar-task";
     }
 }

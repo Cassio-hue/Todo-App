@@ -9,9 +9,17 @@ import java.util.logging.Logger;
 public class TaskDaoJdbc implements TaskDao {
     private final Connection connection;
 
-    public TaskDaoJdbc(Connection connection) {
-        this.connection = connection;
+    public TaskDaoJdbc() {
+        this.connection = getConnection();
         criarTabela();
+    }
+
+    public static Connection getConnection() {
+        try {
+            return DriverManager.getConnection("jdbc:h2:mem:db1", "sa", "");
+        } catch (SQLException ex) {
+            throw new RuntimeException("Erro ao iniciar conexão", ex);
+        }
     }
 
     public void criarTabela() {

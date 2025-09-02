@@ -12,13 +12,13 @@ import java.util.Map;
 @Component
 @Rota("/listar-task")
 public class ListarTaskPage implements Page {
-    private final TaskDao taskRepository;
-    ListarTaskPage(TaskDao taskRepository) {
-        this.taskRepository = taskRepository;
+    private final TaskDao taskDao;
+    ListarTaskPage(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 
     public String render(Map<String, Object> parameters) {
-        List<Task> tasks = taskRepository.list();
+        List<Task> tasks = taskDao.list();
         StringBuilder tarefas = buildTarefasHtml(tasks);
 
         return String.format("""

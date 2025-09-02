@@ -11,15 +11,15 @@ import java.util.Map;
 @Rota("/deletar-task")
 public class DeletarTaskPage implements Page {
 
-    private final TaskDao taskRepository;
-    DeletarTaskPage(TaskDao taskRepository) {
-        this.taskRepository = taskRepository;
+    private final TaskDao taskDao;
+    DeletarTaskPage(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 
     public String render(Map<String, Object> parameters) {
         if (parameters.containsKey("id")) {
             int id = Integer.parseInt(parameters.get("id").toString());
-            taskRepository.delete(id);
+            taskDao.delete(id);
         }
 
         return "<meta http-equiv='refresh' content='0; url=/custom-mvc/listar-task' />";

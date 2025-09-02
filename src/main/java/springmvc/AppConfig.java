@@ -13,10 +13,6 @@ import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import static org.hibernate.cfg.JdbcSettings.*;
 
 @Configuration
@@ -50,7 +46,7 @@ public class AppConfig {
     }
 
     @Bean
-    public TaskDao TaskRepository(SessionFactory sessionFactory) {
+    public TaskDao TaskDao(SessionFactory sessionFactory) {
         return new TaskDaoHibernate(sessionFactory);
     }
 
@@ -66,14 +62,5 @@ public class AppConfig {
         sessionFactory.getSchemaManager().exportMappedObjects(true);
 
         return sessionFactory;
-    }
-
-    @Bean
-    public static Connection getConnection() {
-        try {
-            return DriverManager.getConnection("jdbc:h2:mem:db1", "sa", "");
-        } catch (SQLException ex) {
-            throw new RuntimeException("Erro ao iniciar conexão", ex);
-        }
     }
 }

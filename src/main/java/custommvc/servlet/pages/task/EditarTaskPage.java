@@ -11,9 +11,9 @@ import java.util.Map;
 @Component
 @Rota("/editar-task")
 public class EditarTaskPage implements Page {
-    private final TaskDao taskRepository;
-    EditarTaskPage(TaskDao taskRepository) {
-        this.taskRepository = taskRepository;
+    private final TaskDao taskDao;
+    EditarTaskPage(TaskDao taskDao) {
+        this.taskDao = taskDao;
     }
 
     public String render(Map<String, Object> parameters) {
@@ -22,7 +22,7 @@ public class EditarTaskPage implements Page {
         if (parameters.containsKey("id")) {
             idStr = parameters.get("id").toString();
             if (idStr != null) {
-                task = taskRepository.getById(Integer.parseInt(idStr));
+                task = taskDao.getById(Integer.parseInt(idStr));
             }
         }
 
@@ -37,7 +37,7 @@ public class EditarTaskPage implements Page {
             if (descricao != null && !descricao.isBlank()) {
                 task.setDescricao(descricao);
             }
-            taskRepository.update(task);
+            taskDao.update(task);
             return "<meta http-equiv='refresh' content='0; url=/custom-mvc/listar-task' />";
         }
 

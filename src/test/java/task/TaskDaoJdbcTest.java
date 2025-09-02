@@ -12,21 +12,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskDaoJdbcTest {
-    private static Connection connection;
     private static TaskDaoJdbc dao;
     private static Task task;
     private static Task persistedTask;
 
     @BeforeAll
     public static void setUp() {
-        dao = new TaskDaoJdbc(connection);
-    }
-
-    @AfterAll
-    static void tearDown() throws SQLException {
-        if (connection != null && !connection.isClosed()) {
-            connection.close();
-        }
+        dao = new TaskDaoJdbc();
     }
 
     @Order(0)
