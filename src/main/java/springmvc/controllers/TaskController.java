@@ -4,15 +4,14 @@ import h2factory.task.Task;
 import h2factory.task.TaskDao;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/spring-mvc")
 public class TaskController {
 
     private final TaskDao taskDao;
+
     TaskController(TaskDao taskDao) {
         this.taskDao = taskDao;
     }
@@ -26,7 +25,7 @@ public class TaskController {
     @GetMapping("/criar-task")
     public String criarTask(Model model) {
         model.addAttribute("task", new Task());
-        return  "criar-task";
+        return "criar-task";
     }
 
     @PostMapping("/criar-task")
