@@ -47,6 +47,6 @@ public class MiniServletMVC extends HttpServlet {
             return;
         }
 
-        response.getWriter().write(page.render(parameters));
+        response.getWriter().write(page.render(request, parameters));
     }
 }

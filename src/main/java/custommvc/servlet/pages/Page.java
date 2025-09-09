@@ -1,7 +1,9 @@
 package custommvc.servlet.pages;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import java.util.Map;
 
 public interface Page {
-    String render(Map<String, Object> parameters);
+    String render(HttpServletRequest request, Map<String, Object> parameters);
 }

@@ -79,10 +79,9 @@ public class AppConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         var custom = PathPatternRequestMatcher.withDefaults().basePath("/custom-mvc");
 
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(custom.matcher("/*")).authenticated()
-                .anyRequest().authenticated())
-        .formLogin(Customizer.withDefaults());
+        http.authorizeHttpRequests(auth ->
+                        auth.anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults());
 
         return http.build();
     }

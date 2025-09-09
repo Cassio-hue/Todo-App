@@ -4,6 +4,8 @@ import custommvc.servlet.annotations.Rota;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -17,7 +19,7 @@ public class CriarTaskPage implements Page {
         this.taskDao = taskDao;
     }
 
-    public String render(Map<String, Object> parameters) {
+    public String render(HttpServletRequest request, Map<String, Object> parameters) {
         if (parameters.containsKey("descricao")) {
             String desc = parameters.get("descricao").toString();
             String concluido = parameters.get("concluido").toString();
@@ -30,6 +32,10 @@ public class CriarTaskPage implements Page {
             }
             return "<meta http-equiv='refresh' content='0; URL=/custom-mvc/listar-task' />";
         }
+
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        String csrfParameterName = csrfToken.getParameterName();
+        String csrfTokenValue = csrfToken.getToken();
 
         return """
                 <!DOCTYPE html>
@@ -149,8 +155,9 @@ public class CriarTaskPage implements Page {
                     <a href="/custom-mvc/listar-task" style="text-align: center; text-decoration: none; margin: 1rem auto; display: block; padding: 0.5rem 1rem; font-weight: 600; cursor: pointer; border-radius: 5px; border: 1px solid black; background: #d3d3d3; color: #000; width: 72px;">
                         Tarefas
                     </a>
-                    <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
+                    <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
+                            <input type="hidden" name="%s" value="%s" />
                             <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
                             <input id="descricao" name="descricao" type="text" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
                 
@@ -173,6 +180,6 @@ public class CriarTaskPage implements Page {
                 </body>
                 
                 </html>
-                """;
+                """.formatted(csrfParameterName, csrfTokenValue);
     }
 }

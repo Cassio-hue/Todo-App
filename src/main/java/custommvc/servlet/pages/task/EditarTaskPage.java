@@ -4,6 +4,8 @@ import custommvc.servlet.annotations.Rota;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -16,7 +18,7 @@ public class EditarTaskPage implements Page {
         this.taskDao = taskDao;
     }
 
-    public String render(Map<String, Object> parameters) {
+    public String render(HttpServletRequest request, Map<String, Object> parameters) {
         String idStr;
         Task task = null;
         if (parameters.containsKey("id")) {
@@ -44,6 +46,9 @@ public class EditarTaskPage implements Page {
         String checkedTrue = task.getConcluido() ? "checked" : "";
         String checkedFalse = !task.getConcluido() ? "checked" : "";
 
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        String csrfParameterName = csrfToken.getParameterName();
+        String csrfTokenValue = csrfToken.getToken();
         return String.format("""
                 <!DOCTYPE html>
                 <html lang="pt-BR">
@@ -164,6 +169,7 @@ public class EditarTaskPage implements Page {
                     </a>
                     <form method="POST" id="taskForm" style="background:#fff; padding: 2rem; border-radius: 10px; width: 60%%; box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
                             <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Editar Tarefa</h2>
+                            <input type="hidden" name="%s" value="%s" />
                             <label for="id" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Id</label>
                             <input value="%d" readonly id="id" name="id" type="number" required style="width: 100%%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 1rem; box-sizing: border-box;" />
                 
@@ -189,6 +195,6 @@ public class EditarTaskPage implements Page {
                 </body>
                 
                 </html>
-                """, task.getId(), task.getDescricao(), checkedTrue, checkedFalse);
+                """, csrfParameterName, csrfTokenValue, task.getId(), task.getDescricao(), checkedTrue, checkedFalse);
     }
 }

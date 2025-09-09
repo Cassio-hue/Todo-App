@@ -4,6 +4,8 @@ import custommvc.servlet.annotations.Rota;
 import custommvc.servlet.pages.Page;
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,10 +19,14 @@ public class ListarTaskPage implements Page {
         this.taskDao = taskDao;
     }
 
-    public String render(Map<String, Object> parameters) {
+    public String render(HttpServletRequest request, Map<String, Object> parameters) {
         List<Task> tasks = taskDao.list();
-        StringBuilder tarefas = buildTarefasHtml(tasks);
 
+        CsrfToken csrfToken = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        String csrfParameterName = csrfToken.getParameterName();
+        String csrfTokenValue = csrfToken.getToken();
+
+        StringBuilder tarefas = buildTarefasHtml(tasks, csrfParameterName, csrfTokenValue);
         return String.format("""
                 <!DOCTYPE html>
                 <html lang="pt-BR">
@@ -130,7 +136,7 @@ public class ListarTaskPage implements Page {
                 """, tarefas);
     }
 
-    private static StringBuilder buildTarefasHtml(List<Task> tasks) {
+    private static StringBuilder buildTarefasHtml(List<Task> tasks, String tokenName, String tokenValue) {
         StringBuilder tarefas = new StringBuilder();
 
         for (Task t : tasks) {
@@ -152,11 +158,12 @@ public class ListarTaskPage implements Page {
                                         <button type="submit">Editar</button>
                                     </form>
                                     <form method="POST" action="/custom-mvc/deletar-task">
+                                        <input type="hidden" name="%s" value="%s" />
                                         <input type="hidden" name="id" value="%s"/>
                                         <button type="submit">Excluir</button>
                                     </form>
                                 </div>
-                        """, desc, id, id));
+                        """, desc, id, tokenName, tokenValue, id));
             } else {
                 tarefas.append(String.format("""
                             <div id="taskItem" class="task-item">
@@ -171,11 +178,12 @@ public class ListarTaskPage implements Page {
                                     <button type="submit">Editar</button>
                                 </form>
                                 <form method="POST" action="/custom-mvc/deletar-task">
+                                    <input type="hidden" name="%s" value="%s" />
                                     <input type="hidden" name="id" value="%s"/>
                                     <button type="submit">Excluir</button>
                                 </form>
                             </div>
-                        """, desc, id, id));
+                        """, desc, id, tokenName, tokenValue, id));
             }
         }
         return tarefas;
