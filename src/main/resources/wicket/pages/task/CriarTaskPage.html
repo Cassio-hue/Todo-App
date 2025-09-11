@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:wicket="http://wicket.apache.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Criar Tarefas</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f5f7fa;
@@ -16,19 +17,12 @@
             align-items: center;
             flex-direction: column;
         }
+
         h1 {
             text-align: center;
             margin-bottom: 2rem;
             font-weight: 600;
             color: #2c3e50;
-        }
-        .task-list {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
         }
     </style>
 </head>
@@ -46,23 +40,24 @@
           box-shadow: 0 8px 16px rgba(0,0,0,0.2); font-family: 'Inter', sans-serif;">
     <h2 style="margin-top:0; font-weight:600; color:#2c3e50; margin-bottom:1rem;">Nova Tarefa</h2>
 
-    <input type="hidden" wicket:id="_csrf" />
+    <input type="hidden" wicket:id="_csrf"/>
 
-    <label for="descricao" style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
+    <label for="descricao"
+           style="display:block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Descrição</label>
     <input type="text" wicket:id="descricao" id="descricao" required
            style="width: 100%; padding: 0.5rem; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;
-               margin-bottom: 1rem; box-sizing: border-box;" />
+               margin-bottom: 1rem; box-sizing: border-box;"/>
 
     <fieldset wicket:id="concluido" style="border:none; padding:0; margin-bottom: 1.5rem;">
         <legend style="font-weight:600; color:#333; margin-bottom: 0.5rem;">Concluído?</legend>
         <label style="margin-right: 1rem; cursor: pointer;">
             <input type="radio" wicket:id="concluidoSim" name="concluido" value="true"
-                   style="margin-right: 0.25rem;" />
+                   style="margin-right: 0.25rem;"/>
             Sim
         </label>
         <label style="cursor: pointer;">
-            <input type="radio" wicket:id="concluidoNao" name="concluido" value="false"
-                   style="margin-right: 0.25rem;" checked="checked" />
+            <input type="radio" wicket:id="concluidoNao" checked name="concluido" value="false"
+                   style="margin-right: 0.25rem;"/>
             Não
         </label>
     </fieldset>

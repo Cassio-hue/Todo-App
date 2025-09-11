@@ -46,7 +46,6 @@ public class CriarTaskPage extends WebPage {
         concluidoGroup.add(concluidoSim);
         concluidoGroup.add(concluidoNao);
         concluidoGroup.setRequired(true);
-        concluidoGroup.setModel(Model.of(Boolean.FALSE));
 
         BookmarkablePageLink<Void> tarefasLink = new BookmarkablePageLink<>("tarefasLink", ListarTaskPage.class);
         add(tarefasLink);

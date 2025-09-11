@@ -89,8 +89,8 @@ public class AppConfig {
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         return new InMemoryUserDetailsManager(
                 User.builder()
-                        .username("admin")
-                        .password(passwordEncoder.encode("admin"))
+                        .username("teste")
+                        .password(passwordEncoder.encode("teste"))
                         .build()
         );
     }

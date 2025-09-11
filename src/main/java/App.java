@@ -33,8 +33,8 @@ public class App {
         WicketApplication wicketApplication = webContext.getBean(WicketApplication.class);
         FilterHolder wicketFilterHolder = new FilterHolder(WicketFilter.class);
         wicketFilterHolder.setInitParameter("applicationClassName", wicketApplication.getClass().getName());
-        wicketFilterHolder.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, "/wicket-mvc/*");
-        contextHandler.addFilter(wicketFilterHolder, "/wicket-mvc/*", EnumSet.of(DispatcherType.REQUEST));
+        wicketFilterHolder.setInitParameter(WicketFilter.FILTER_MAPPING_PARAM, "/wicket/*");
+        contextHandler.addFilter(wicketFilterHolder, "/wicket/*", EnumSet.of(DispatcherType.REQUEST));
 
         MiniServletMVC miniServlet = webContext.getBean(MiniServletMVC.class);
         contextHandler.addServlet(new ServletHolder(miniServlet), "/custom-mvc/*");

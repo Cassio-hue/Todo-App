@@ -68,6 +68,7 @@
             flex-shrink: 0;
         }
 
+
         .checkbox.completed {
             background-color: #2ecc71;
             color: white;
@@ -90,6 +91,31 @@
             height: 18px;
             fill: currentColor;
         }
+        .button-default {
+            appearance: button;
+            -webkit-appearance: button;
+            -moz-appearance: button;
+
+            display: inline-block;
+            padding: 2px 6px;
+            margin: 0;
+            border: 1px solid #686867;
+            border-radius: 3px;
+            background-color: ButtonFace;
+            color: ButtonText;
+            text-align: center;
+            text-decoration: none;
+            font: 400 13.3333px Arial;
+            cursor: pointer;
+        }
+
+        .button-default:disabled,
+        .button-default[disabled] {
+            color: GrayText;
+            background-color: ButtonFace;
+            border-color: GrayText;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -104,10 +130,7 @@
             <div wicket:id="descricao" class="task-desc"></div>
 
 
-            <form wicket:id="editarForm">
-                <input type="hidden" name="id" wicket:id="taskId"/>
-                <button type="submit">Editar</button>
-            </form>
+            <a class="button-default" wicket:id="editarLink" href="#" style="margin-right: 8px;">Editar</a>
             <form wicket:id="deletarForm">
                 <input type="hidden" wicket:id="_csrf">
                 <button type="submit">Excluir</button>

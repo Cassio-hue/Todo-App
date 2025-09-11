@@ -4,18 +4,18 @@ import h2factory.task.Task;
 import h2factory.task.TaskDao;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.wicket.AttributeModifier;
-import org.apache.wicket.markup.head.CssHeaderItem;
-import org.apache.wicket.markup.head.IHeaderResponse;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.HiddenField;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.request.http.WebRequest;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.security.web.csrf.CsrfToken;
 
@@ -47,10 +47,7 @@ public class ListarTaskPage extends WebPage {
                     @Override
                     protected void onConfigure() {
                         super.onConfigure();
-                        String cssClass = "checkbox";
-                        if (task.getConcluido()) {
-                            cssClass += " completed";
-                        }
+                        String cssClass = "checkbox" + (task.getConcluido() ? " completed" : "");
                         add(AttributeModifier.replace("class", cssClass));
                     }
                 });
@@ -61,15 +58,10 @@ public class ListarTaskPage extends WebPage {
                 }
                 item.add(descLabel);
 
-                Form<?> editarForm = new Form<Void>("editarForm") {
-                    @Override
-                    protected void onSubmit() {
-                        setResponsePage(ListarTaskPage.class);
-                    }
-                };
-                HiddenField<String> taskId = new HiddenField<>("taskId", Model.of(String.valueOf(task.getId())));
-                editarForm.add(taskId);
-                item.add(editarForm);
+                PageParameters params = new PageParameters();
+                params.add("taskId", task.getId());
+                BookmarkablePageLink<Void> editarLink = new BookmarkablePageLink<>("editarLink", EditarTaskPage.class, params);
+                item.add(editarLink);
 
                 Form<?> deletarForm = new Form<Void>("deletarForm") {
                     @Override
@@ -81,9 +73,9 @@ public class ListarTaskPage extends WebPage {
                 WebRequest webRequest = (WebRequest) getRequest();
                 HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getContainerRequest();
                 CsrfToken csrfToken = (CsrfToken) servletRequest.getAttribute(CsrfToken.class.getName());
-                HiddenField<String> csrfHidden = new HiddenField<>("_csrf",
+                HiddenField<String> deletarCsrfHidden = new HiddenField<>("_csrf",
                         Model.of(csrfToken != null ? csrfToken.getToken() : ""));
-                deletarForm.add(csrfHidden);
+                deletarForm.add(deletarCsrfHidden);
 
                 item.add(deletarForm);
             }
