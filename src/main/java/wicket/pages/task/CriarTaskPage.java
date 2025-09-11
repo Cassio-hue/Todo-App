@@ -23,7 +23,7 @@ public class CriarTaskPage extends WebPage {
 
         IModel<Task> taskModel = new CompoundPropertyModel<>(new Task());
 
-        Form<Task> form = new Form<Task>("taskForm", taskModel) {
+        Form<Task> form = new Form<>("taskForm", taskModel) {
             @Override
             protected void onSubmit() {
                 super.onSubmit();
@@ -45,6 +45,8 @@ public class CriarTaskPage extends WebPage {
         Radio<Boolean> concluidoNao = new Radio<>("concluidoNao", Model.of(Boolean.FALSE));
         concluidoGroup.add(concluidoSim);
         concluidoGroup.add(concluidoNao);
+        form.add(concluidoGroup);
+
         concluidoGroup.setRequired(true);
 
         BookmarkablePageLink<Void> tarefasLink = new BookmarkablePageLink<>("tarefasLink", ListarTaskPage.class);
