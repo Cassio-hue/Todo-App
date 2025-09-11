@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:wicket="http://wicket.apache.org">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>Lista de Tarefas</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+        a {
+            display: flex;
+            justify-content: center;
+            padding: 16px;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -86,50 +92,27 @@
         }
     </style>
 </head>
-
 <body>
-<h1>Minhas Tarefas</h1>
-<a href="/spring-mvc/criar-task" style="display: flex; justify-content: center; padding: 16px;">Criar Tarefas</a>
+<div class="container">
+    <h1>Minhas Tarefas</h1>
 
-<div class="task-list">
-    <!-- Itera sobre a lista de tarefas -->
-    <div th:each="task : ${tasks}" id="taskItem" class="task-item">
+    <a href="#" wicket:id="criarLink">Criar Tarefas</a>
 
-        <!-- Checkbox concluído ou pendente -->
-        <div th:class="'checkbox ' + (${task.concluido} ? 'completed' : '')"
-             th:title="${task.concluido} ? 'Concluído' : 'Pendente'">
+    <div wicket:id="taskList" class="task-list">
+        <div wicket:id="taskItem" class="task-item">
+            <div wicket:id="checkbox" class="checkbox"></div>
+            <div wicket:id="descricao" class="task-desc"></div>
 
-            <!-- Ícone check concluído -->
-            <svg class="check-icon" viewBox="0 0 24 24"
-                 xmlns="http://www.w3.org/2000/svg"
-                 th:if="${task.concluido}">
-                <path d="M9 16.2l-3.5-3.5 1.41-1.41L9 13.38l7.09-7.09L17.5 7l-8.5 8.5z"></path>
-            </svg>
 
-            <!-- Ícone quadrado pendente -->
-            <svg class="check-icon" viewBox="0 0 24 24"
-                 stroke="#3498db" stroke-width="2" stroke-linecap="round"
-                 stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"
-                 th:if="${!task.concluido}">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            </svg>
+            <form wicket:id="editarForm">
+                <input type="hidden" name="id" wicket:id="taskId"/>
+                <button type="submit">Editar</button>
+            </form>
+            <form wicket:id="deletarForm">
+                <input type="hidden" wicket:id="_csrf">
+                <button type="submit">Excluir</button>
+            </form>
         </div>
-
-        <!-- Descrição da tarefa -->
-        <div th:class="'task-desc ' + (${task.concluido} ? 'completed' : '')"
-             th:text="${task.descricao}"></div>
-
-        <!-- Botão Editar -->
-        <form method="GET" action="/spring-mvc/editar-task" style="margin-right: 8px;">
-            <input type="hidden" name="id" th:value="${task.id}" />
-            <button type="submit">Editar</button>
-        </form>
-
-        <!-- Botão Excluir -->
-        <form method="POST" th:action="@{/spring-mvc/deletar-task}">
-            <input type="hidden" name="id" th:value="${task.id}" />
-            <button type="submit">Excluir</button>
-        </form>
     </div>
 </div>
 </body>

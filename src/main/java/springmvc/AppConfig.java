@@ -22,6 +22,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import wicket.WicketApplication;
 
 import static org.hibernate.cfg.JdbcSettings.*;
 
@@ -77,8 +78,6 @@ public class AppConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        var custom = PathPatternRequestMatcher.withDefaults().basePath("/custom-mvc");
-
         http.authorizeHttpRequests(auth ->
                         auth.anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults());
@@ -90,8 +89,8 @@ public class AppConfig {
     public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
         return new InMemoryUserDetailsManager(
                 User.builder()
-                        .username("teste")
-                        .password(passwordEncoder.encode("teste"))
+                        .username("admin")
+                        .password(passwordEncoder.encode("admin"))
                         .build()
         );
     }
@@ -99,5 +98,10 @@ public class AppConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public WicketApplication wicketApplication() {
+        return new WicketApplication();
     }
 }
