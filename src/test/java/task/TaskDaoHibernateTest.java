@@ -2,7 +2,9 @@ package task;
 
 import h2factory.task.Task;
 import h2factory.task.TaskDao;
+import h2factory.task.TaskDaoHibernate;
 import org.junit.jupiter.api.*;
+import springmvc.AppConfig;
 
 import java.util.List;
 
@@ -11,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskDaoHibernateTest {
-    private TaskDao taskDaoHibernate;
+    private static TaskDao taskDaoHibernate;
     private static Task task;
     private static Task persistedTask;
 
     @BeforeAll
     public static void setUp() {
-//        taskDaoHibernate = new TaskDaoHibernate();
+        taskDaoHibernate = new TaskDaoHibernate(AppConfig.sessionFactory());
     }
 
     @Order(0)
