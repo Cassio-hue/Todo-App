@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskDaoHibernateTest {
     private static TaskDao taskDaoHibernate;
-    private static Task task;
-    private static Task persistedTask;
+    private Task task;
+    private Task persistedTask;
 
     @BeforeAll
     public static void setUp() {
