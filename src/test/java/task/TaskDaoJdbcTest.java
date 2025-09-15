@@ -4,8 +4,6 @@ import h2factory.task.Task;
 import h2factory.task.TaskDaoJdbc;
 import org.junit.jupiter.api.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

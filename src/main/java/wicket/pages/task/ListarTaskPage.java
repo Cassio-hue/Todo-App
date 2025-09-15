@@ -27,7 +27,7 @@ public class ListarTaskPage extends WebPage {
 
     public ListarTaskPage() {
 
-        Link<Void> criarLink = new Link<Void>("criarLink") {
+        Link<Void> criarLink = new Link<>("criarLink") {
             @Override
             public void onClick() {
                 setResponsePage(CriarTaskPage.class);
@@ -38,7 +38,7 @@ public class ListarTaskPage extends WebPage {
         WebMarkupContainer taskListContainer = new WebMarkupContainer("taskList");
         add(taskListContainer);
         List<Task> tasks = taskDao.list();
-        ListView<Task> listView = new ListView<Task>("taskItem", tasks) {
+        ListView<Task> listView = new ListView<>("taskItem", tasks) {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 Task task = item.getModelObject();

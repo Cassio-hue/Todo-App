@@ -7,12 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class TaskDaoHibernate implements TaskDao {
-    private final SessionFactory hibernateFactory;
-
-    public TaskDaoHibernate(SessionFactory sessionFactory) {
-        hibernateFactory = sessionFactory;
-    }
+public record TaskDaoHibernate(SessionFactory hibernateFactory) implements TaskDao {
 
     @Override
     public boolean insert(Task task) {

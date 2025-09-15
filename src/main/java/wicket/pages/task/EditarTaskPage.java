@@ -28,7 +28,7 @@ public class EditarTaskPage extends WebPage {
         }
 
         IModel<Task> taskModel = new CompoundPropertyModel<>(task);
-        Form<Task> form = new Form<Task>("taskForm", taskModel) {
+        Form<Task> form = new Form<>("taskForm", taskModel) {
             @Override
             protected void onSubmit() {
                 super.onSubmit();
