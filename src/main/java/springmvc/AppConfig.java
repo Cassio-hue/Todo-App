@@ -79,7 +79,6 @@ public class AppConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        PathPatternParser parser = new PathPatternParser();
         http.authorizeHttpRequests(auth -> auth
                         .anyRequest().authenticated()
                 )
