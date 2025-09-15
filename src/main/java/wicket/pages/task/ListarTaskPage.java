@@ -24,21 +24,29 @@ import java.util.List;
 public class ListarTaskPage extends WebPage {
     @SpringBean
     private TaskDao taskDao;
+    private Link<Void> criarLink;
+    private ListView<Task> listView;
+    private WebMarkupContainer taskListContainer;
 
     public ListarTaskPage() {
+    }
 
-        Link<Void> criarLink = new Link<>("criarLink") {
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
+
+        criarLink = new Link<>("criarLink") {
             @Override
             public void onClick() {
-                setResponsePage(CriarTaskPage.class);
+                setResponsePage(RegistrarTaskPage.class);
             }
         };
         add(criarLink);
 
-        WebMarkupContainer taskListContainer = new WebMarkupContainer("taskList");
+        taskListContainer = new WebMarkupContainer("taskList");
         add(taskListContainer);
         List<Task> tasks = taskDao.list();
-        ListView<Task> listView = new ListView<>("taskItem", tasks) {
+        listView = new ListView<>("taskItem", tasks) {
             @Override
             protected void populateItem(ListItem<Task> item) {
                 Task task = item.getModelObject();
@@ -60,8 +68,7 @@ public class ListarTaskPage extends WebPage {
 
                 PageParameters params = new PageParameters();
                 params.add("taskId", task.getId());
-                BookmarkablePageLink<Void> editarLink = new BookmarkablePageLink<>("editarLink", EditarTaskPage.class, params);
-                item.add(editarLink);
+                item.add(new BookmarkablePageLink<>("editarLink", RegistrarTaskPage.class, params));
 
                 Form<?> deletarForm = new Form<Void>("deletarForm") {
                     @Override
@@ -76,7 +83,6 @@ public class ListarTaskPage extends WebPage {
                 HiddenField<String> deletarCsrfHidden = new HiddenField<>("_csrf",
                         Model.of(csrfToken != null ? csrfToken.getToken() : ""));
                 deletarForm.add(deletarCsrfHidden);
-
                 item.add(deletarForm);
             }
 

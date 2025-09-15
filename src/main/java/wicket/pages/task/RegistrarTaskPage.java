@@ -14,51 +14,73 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 import org.springframework.security.web.csrf.CsrfToken;
 
-public class EditarTaskPage extends WebPage {
+import java.sql.SQLException;
+
+public class RegistrarTaskPage extends WebPage {
     @SpringBean
     private TaskDao taskDao;
+    private Task task;
 
-    public EditarTaskPage(final PageParameters parameters) {
-        super(parameters);
-        Task task;
-        if (parameters.get("taskId") != null) {
-            task = taskDao.getById(Integer.parseInt(parameters.get("taskId").toString()));
+    private PageParameters parameters;
+    private Form<Task> form;
+    private TextField<String> descricao;
+    private RadioGroup<Boolean> concluidoGroup;
+    private Radio<Boolean> concluidoSim;
+    private Radio<Boolean> concluidoNao;
+    private HiddenField<String> csrfHidden;
+    private BookmarkablePageLink<Void> tarefasLink;
+
+    public RegistrarTaskPage() {
+    }
+
+    @Override
+    protected void onInitialize() {
+        super.onInitialize();
+        parameters = getPageParameters();
+
+        if (!parameters.get("taskId").isEmpty()) {
+            task = taskDao.getById(parameters.get("taskId").toOptionalInteger());
         } else {
             task = new Task();
         }
 
         IModel<Task> taskModel = new CompoundPropertyModel<>(task);
-        Form<Task> form = new Form<>("taskForm", taskModel) {
+        form = new Form<>("taskForm", taskModel) {
             @Override
             protected void onSubmit() {
                 super.onSubmit();
                 Task task = getModelObject();
-                taskDao.update(task);
+                if (task.getId() == null) {
+                    taskDao.insert(task);
+                } else {
+                    taskDao.update(task);
+                }
                 setResponsePage(ListarTaskPage.class);
             }
         };
         add(form);
 
-        TextField<String> descricao = new TextField<>("descricao");
+        tarefasLink = new BookmarkablePageLink<>("tarefasLink", ListarTaskPage.class);
+        add(tarefasLink);
+
+        descricao = new TextField<>("descricao");
         descricao.setRequired(true);
         form.add(descricao);
 
-        RadioGroup<Boolean> concluidoGroup = new RadioGroup<>("concluido");
+        concluidoGroup = new RadioGroup<>("concluido");
         form.add(concluidoGroup);
 
-        Radio<Boolean> concluidoSim = new Radio<>("concluidoSim", Model.of(Boolean.TRUE));
-        Radio<Boolean> concluidoNao = new Radio<>("concluidoNao", Model.of(Boolean.FALSE));
+        concluidoSim = new Radio<>("concluidoSim", Model.of(Boolean.TRUE));
         concluidoGroup.add(concluidoSim);
+
+        concluidoNao = new Radio<>("concluidoNao", Model.of(Boolean.FALSE));
         concluidoGroup.add(concluidoNao);
         concluidoGroup.setRequired(true);
-
-        BookmarkablePageLink<Void> tarefasLink = new BookmarkablePageLink<>("tarefasLink", ListarTaskPage.class);
-        add(tarefasLink);
 
         WebRequest webRequest = (WebRequest) getRequest();
         HttpServletRequest servletRequest = (HttpServletRequest) webRequest.getContainerRequest();
         CsrfToken csrfToken = (CsrfToken) servletRequest.getAttribute(CsrfToken.class.getName());
-        HiddenField<String> csrfHidden = new HiddenField<>("_csrf",
+        csrfHidden = new HiddenField<>("_csrf",
                 Model.of(csrfToken != null ? csrfToken.getToken() : ""));
         form.add(csrfHidden);
     }
