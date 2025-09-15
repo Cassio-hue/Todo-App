@@ -16,7 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.util.pattern.PathPatternParser;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -77,10 +79,14 @@ public class AppConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth ->
-                        auth.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults());
-
+        PathPatternParser parser = new PathPatternParser();
+        http.authorizeHttpRequests(auth -> auth
+                        .anyRequest().authenticated()
+                )
+                .formLogin(Customizer.withDefaults())
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers(PathPatternRequestMatcher.withDefaults().matcher("/wicket/**"))
+                );
         return http.build();
     }
 

@@ -31,7 +31,7 @@ public class Task implements Serializable {
         this.concluido = concluido;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

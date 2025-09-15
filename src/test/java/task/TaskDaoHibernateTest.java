@@ -11,65 +11,76 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TaskDaoHibernateTest {
-    private static TaskDao taskDaoHibernate;
-    private Task task;
-    private Task persistedTask;
+    private TaskDao taskDaoHibernate;
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    void setUp() {
         taskDaoHibernate = new TaskDaoHibernate(AppConfig.sessionFactory());
     }
 
-    @Order(0)
     @Test
     @DisplayName("Adicionar uma tarefa")
     void insert() {
-        task = new Task("Tarefa 1");
+        Task task = new Task("Tarefa 1");
         Assertions.assertTrue(taskDaoHibernate.insert(task));
     }
 
-    @Order(1)
     @Test
     @DisplayName("Listar tarefas")
     void list() {
+        Task task = new Task("Tarefa 1");
+        taskDaoHibernate.insert(task);
         List<Task> tasks = taskDaoHibernate.list();
+
         assertNotNull(tasks);
         assertFalse(tasks.isEmpty());
-        persistedTask = tasks.stream().filter(t -> t.getDescricao().equals(task.getDescricao())).findFirst().orElse(null);
+        Task persistedTask = tasks.stream()
+                .filter(t -> t.getDescricao().equals(task.getDescricao()))
+                .findFirst()
+                .orElse(null);
         assertNotNull(persistedTask);
     }
 
-    @Order(2)
     @Test
     @DisplayName("Atualizar tarefa")
     void update() {
+        Task task = new Task("Tarefa 1");
         List<Task> tasks = taskDaoHibernate.list();
-        assertFalse(tasks.isEmpty());
+        Task persistedTask = tasks.stream()
+                .filter(t -> t.getDescricao().equals(task.getDescricao()))
+                .findFirst()
+                .orElse(null);
         assertNotNull(persistedTask);
+        assertFalse(tasks.isEmpty());
 
         persistedTask.setDescricao("Fazer o AppTodo");
         persistedTask.setConcluido(true);
-
-        boolean isUpdated = taskDaoHibernate.update(persistedTask);
-        assertTrue(isUpdated);
+        assertTrue(taskDaoHibernate.update(persistedTask));
 
         Task updatedTaskDB = taskDaoHibernate.getById(persistedTask.getId());
-
         assertEquals(persistedTask.getId(), updatedTaskDB.getId());
         assertEquals(persistedTask.getDescricao(), updatedTaskDB.getDescricao());
         assertEquals(persistedTask.getConcluido(), updatedTaskDB.getConcluido());
-
-        persistedTask = updatedTaskDB;
     }
 
-    @Order(3)
     @Test
     @DisplayName("Deletar tarefa")
     void delete() {
+        Task task = new Task("Tarefa 1");
+        taskDaoHibernate.insert(task);
+
+        List<Task> tasks = taskDaoHibernate.list();
+        Task persistedTask = tasks.stream()
+                .filter(t -> t.getDescricao().equals(task.getDescricao()))
+                .findFirst()
+                .orElse(null);
+        assertNotNull(persistedTask);
+
         assertTrue(taskDaoHibernate.list().contains(persistedTask));
+
         taskDaoHibernate.delete(persistedTask.getId());
-        assertFalse(taskDaoHibernate.list().contains(persistedTask));
+        List<Task> tasksAfterDelete = taskDaoHibernate.list();
+        assertFalse(tasksAfterDelete.contains(persistedTask));
     }
 }
